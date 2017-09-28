@@ -4,13 +4,41 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
+import play.db.Database;
+import play.db.Databases;
+import play.db.jpa.*;
+
+import play.Logger;
+
+import java.sql.*;
 
 import models.Usuario;
+import models.UsuarioRepository;
+import models.JPAUsuarioRepository;
 
 public class UsuarioTest {
+  static Database db;
+  static JPAApi jpaApi;
 
+  // Se ejecuta sólo una vez, al principio de todos los tests
+  @BeforeClass
+  static public void initDatabase(){
+    //Inicializamos la BD en memoria y su nombre JNDI
+    db = Databases.inMemoryWith("jndiName","DBTest");
+    db.getConnection();
+    //Se activa la compatibilidad con MySQL en la BD H2
+    db.withConnection(connection -> {
+      connection.createStatement().execute("SET MODE MySQL;");
+    });
+    // Activamos en JPA la unidad de persistencia "memoryPersistenceUnit"
+    // declarada en META-INF/persistence.xml y obtenemos el objeto
+    // JPAApi
+    jpaApi = JPA.createFor("memoryPersistenceUnit");
+  }
+  //Test 1: testCrearusuario
   @Test
   public void testCrearUsuario() throws ParseException{
+    //Los parametros del constructor son campos obligatorios
     Usuario usuario = new Usuario("juangutierrez","juangutierrez@gmail.com");
     usuario.setNombre("Juan");
     usuario.setApellidos("Gutierrez");
@@ -26,4 +54,32 @@ public class UsuarioTest {
     assertEquals("123456789",usuario.getPassword());
     assertTrue(usuario.getFechaNacimiento().compareTo(sdf.parse("1997-02-20")) == 0);
   }
+
+  //Test 2: testAddUsuarioJPARepositoryInsertsUsuarioDatabase
+  @Test
+  public void testAddUsuarioJPARepositroyInsertsUsuarioDatabase(){
+    assertNotNull(jpaApi);
+    UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+    Usuario usuario = new Usuario("juangutierrez","juangutierrez@gmail.com");
+    usuario.setNombre("Juan");
+    usuario.setApellidos("Gutierrez");
+    usuario.setPassword("123456789");
+    usuario = repository.add(usuario);
+    Logger.info("Numero de usuario: " + Long.toString(usuario.getId()));
+    assertNotNull(usuario.getId());
+    assertEquals("Juan",getNombreFromUsuarioDB(usuario.getId()));
+  }
+
+    private String getNombreFromUsuarioDB(Long usuarioID){
+      String nombre = db.withConnection(connection -> {
+        String selectStatement = "SELECT nombre FROM Usuario WHERE id = ? ";
+        PreparedStatement prepStmt = connection.prepareStatement(selectStatement);
+        prepStmt.setLong(1,usuarioID);
+        ResultSet rs = prepStmt.executeQuery();
+        rs.next();
+        return rs.getString("Nombre");
+      });
+      return nombre;
+    }
+
 }
