@@ -12,4 +12,6 @@ public class Registro {
   public String email;
   @Constraints.Required
   public String password;
+  @Constraints.Required
+  public String confirmacion;
 }
