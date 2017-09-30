@@ -57,11 +57,6 @@ public class UsuarioTest {
       IDataSet initialDataSet = new FlatXmlDataSetBuilder().build(new
       FileInputStream("test/resources/usuarios_dataset.xml"));
       databaseTester.setDataSet(initialDataSet);
-      // Definimos como operación TearDown DELETE_ALL para que se
-      // borren todos los datos de las tablas del dataset
-      // (el valor por defecto DbUnit es DatabaseOperation.NONE)
-      databaseTester.setTearDownOperation(DatabaseOperation.DELETE_ALL);
-
       // Definimos como operación SetUp CLEAN_INSERT, que hace un
       // DELETE_ALL de todas las tablase del dataset, seguido por un
       // INSERT. (http://dbunit.sourceforge.net/components.html)
@@ -107,12 +102,12 @@ public class UsuarioTest {
 
    private String getNombreFromUsuarioDB(Long usuarioId) {
       String nombre = db.withConnection(connection -> {
-         String selectStatement = "SELECT Nombre FROM Usuario WHERE id = ? ";
+         String selectStatement = "SELECT NOMBRE FROM USUARIO WHERE ID = ? ";
          PreparedStatement prepStmt = connection.prepareStatement(selectStatement);
          prepStmt.setLong(1, usuarioId);
          ResultSet rs = prepStmt.executeQuery();
          rs.next();
-         return rs.getString("Nombre");
+         return rs.getString("NOMBRE");
       });
       return nombre;
    }
