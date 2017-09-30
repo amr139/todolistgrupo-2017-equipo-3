@@ -27,4 +27,12 @@ public class UsuarioService {
   public Usuario findUsuarioPorLogin(String login) {
     return repository.findByLogin(login);
   }
+
+  public Usuario login(String login, String password){
+    Usuario usuario = repository.findByLogin(login);
+    if(usuario != null && usuario.getPassword().equals(password)) {
+      return usuario;
+    }
+      return null;
+  }
 }
