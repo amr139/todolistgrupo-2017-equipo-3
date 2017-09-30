@@ -6,13 +6,18 @@ import play.db.Databases;
 
 import play.db.jpa.*;
 
+import org.dbunit.*;
+import org.dbunit.dataset.*;
+import org.dbunit.dataset.xml.*;
+import org.dbunit.operation.*;
+import java.io.FileInputStream;
+
 import models.Usuario;
 import models.UsuarioRepository;
 import models.JPAUsuarioRepository;
 
 import services.UsuarioService;
 import services.UsuarioServiceException;
-
 
 public class UsuarioServiceTest {
    static Database db;
@@ -32,6 +37,15 @@ public class UsuarioServiceTest {
       // declarada en META-INF/persistence.xml y obtenemos el objeto
       // JPAApi
       jpaApi = JPA.createFor("memoryPersistenceUnit");
+   }
+
+   @Before
+   public void initData() throws Exception {
+      JndiDatabaseTester databaseTester = new JndiDatabaseTester("DBTest");
+      IDataSet initialDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("test/resources/usuarios_dataset.xml"));
+      databaseTester.setDataSet(initialDataSet);
+      databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
+      databaseTester.onSetup();
    }
 
    //Test 5: crearNuevoUsuarioCorrectoTest
@@ -65,7 +79,6 @@ public class UsuarioServiceTest {
       assertNotNull(usuario);
       assertEquals((Long) 1000L, usuario.getId());
    }
-
 
    //Test 8: loginUsuarioExistenteTest
    @Test
