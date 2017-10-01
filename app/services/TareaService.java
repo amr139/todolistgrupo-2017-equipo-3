@@ -41,4 +41,26 @@ public class TareaService {
     return tareaRepository.add(tarea);
   }
 
+  public Tarea obtenerTarea(Long idTarea){
+    return tareaRepository.findById(idTarea);
+  }
+
+  public Tarea modificaTarea(Long idTarea, String nuevoTitulo){
+    Tarea tarea = tareaRepository.findById(idTarea);
+    if(tarea == null){
+      throw new TareaServiceException("No existe tarea");
+    }
+    tarea.setTitulo(nuevoTitulo);
+    tarea = tareaRepository.update(tarea);
+    return tarea;
+  }
+
+  public void borraTarea(Long idTarea){
+    Tarea tarea = tareaRepository.findById(idTarea);
+    if (tarea == null )
+      throw new TareaServiceException("No existe tarea");
+    tareaRepository.delete(idTarea);
+  }
+
+
 }
