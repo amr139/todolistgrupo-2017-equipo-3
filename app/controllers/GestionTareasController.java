@@ -21,7 +21,7 @@ public class GestionTareasController extends Controller {
 
    @Inject FormFactory formFactory;
    @Inject UsuarioService usuarioService;
-  @Inject TareaService tareaService;
+   @Inject TareaService tareaService;
 
    // Comprobamos si hay alguien logeado con @Security.Authenticated(ActionAuthenticator.class)
    // https://alexgaribay.com/2014/06/15/authentication-in-play-framework-using-java/
@@ -87,10 +87,19 @@ public class GestionTareasController extends Controller {
       }
     }
 
+    @Security.Authenticated(ActionAuthenticator.class)
     public Result grabaTareaModificada(Long idTarea) {
       DynamicForm requestData = formFactory.form().bindFromRequest();
       String nuevoTitulo = requestData.get("titulo");
       Tarea tarea = tareaService.modificaTarea(idTarea,nuevoTitulo);
       return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
+    }
+
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result borraTarea(Long idTarea) {
+      tareaService.borraTarea(idTarea);
+        flash("aviso","Tarea borrada correctamente");
+        return ok();
+
     }
  }
