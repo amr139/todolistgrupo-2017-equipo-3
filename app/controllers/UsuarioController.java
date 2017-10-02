@@ -93,4 +93,15 @@ public class UsuarioController extends Controller {
          }
       }
    }
+
+   @Security.Authenticated(ActionAuthenticator.class)
+   public Result formularioEditarPerfil(Long idUsuario){
+     Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
+      if (usuario == null) {
+         return notFound("Usuario no encontrado");
+      } else {
+         return ok(saludo.render("Usuario encontrado: " + usuario.getId()));
+      }
+   }
+
 }
