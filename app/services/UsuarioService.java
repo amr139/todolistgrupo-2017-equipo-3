@@ -41,4 +41,19 @@ public class UsuarioService {
          return null;
       }
    }
+
+   public Usuario actualizarUsuario(Long idUsuario, String uEmail, String uNombre, String uApellidos, Date uDate){
+     Usuario usuario = usuarioRepository.findById(idUsuario);
+     if(usuario == null){
+       throw new TareaServiceException("No existe Usuario");
+     }
+     usuario.setEmail(uEmail);
+     usuario.setNombre(uNombre);
+     usuario.setApellidos(uApellidos);
+     usuario.setFechaNacimiento(uDate);
+     usuario = usuarioRepository.update(usuario);
+     return usuario;
+   }
+
+
 }
