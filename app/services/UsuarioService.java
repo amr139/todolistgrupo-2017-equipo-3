@@ -5,6 +5,7 @@ import javax.inject.*;
 import models.Usuario;
 import models.UsuarioRepository;
 
+import java.util.Date;
 
 public class UsuarioService {
    UsuarioRepository repository;
@@ -41,4 +42,19 @@ public class UsuarioService {
          return null;
       }
    }
+
+   public Usuario actualizarUsuario(Long idUsuario, String uEmail, String uNombre, String uApellidos, Date uDate){
+     Usuario usuario = repository.findById(idUsuario);
+     if(usuario == null){
+       throw new TareaServiceException("No existe Usuario");
+     }
+     usuario.setEmail(uEmail);
+     usuario.setNombre(uNombre);
+     usuario.setApellidos(uApellidos);
+     usuario.setFechaNacimiento(uDate);
+     usuario = repository.update(usuario);
+     return usuario;
+   }
+
+
 }

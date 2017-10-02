@@ -8,6 +8,11 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.Logger;
 
+import play.data.DynamicForm;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import services.UsuarioService;
 import models.Usuario;
 import security.ActionAuthenticator;
@@ -64,7 +69,7 @@ public class UsuarioController extends Controller {
          // la sesión de Play
          // https://www.playframework.com/documentation/2.5.x/JavaSessionFlash
          session("connected", usuario.getId().toString());
-         return redirect(controllers.routes.GestionTareasController.listaTareas(usuario.getId()));
+         return redirect(controllers.routes.UsuarioController.detalleUsuario(usuario.getId()));
       }
    }
 
@@ -97,11 +102,38 @@ public class UsuarioController extends Controller {
    @Security.Authenticated(ActionAuthenticator.class)
    public Result formularioEditarPerfil(Long idUsuario){
      Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-      if (usuario == null) {
-         return notFound("Usuario no encontrado");
-      } else {
-         return ok(saludo.render("Usuario encontrado: " + usuario.getId()));
-      }
+     if(usuario == null) {
+       return notFound("Usuario no encontrada");
+     }else {
+       String connectedUserStr = session("connected");
+       Long connectedUser = Long.valueOf(connectedUserStr);
+       if(connectedUser != usuario.getId()){
+         return unauthorized("Lo siento, no estas autorizado");
+       } else {
+         String fechaStr = "";
+         if (usuario.getFechaNacimiento() != null) {
+            SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+            fechaStr = formateador.format(usuario.getFechaNacimiento());
+         }
+
+        return ok(modificaPerfil.render(usuario.getId(), usuario.getLogin(), usuario.getEmail(),usuario.getNombre(),usuario.getApellidos(),fechaStr, ""));
+       }
+     }
+   }
+
+   @Security.Authenticated(ActionAuthenticator.class)
+   public Result grabarUsuarioActualizado(Long idUsuario) throws java.text.ParseException{
+     DynamicForm requestData = formFactory.form().bindFromRequest();
+     String nEmail = requestData.get("email");
+     String nNombre = requestData.get("nombre");
+     String nApellidos = requestData.get("apellidos");
+     String entrada = requestData.get("fecha");
+
+     SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+     Date nFecha = formateador.parse(entrada);
+
+     Usuario usuario = usuarioService.actualizarUsuario(idUsuario,nEmail,nNombre,nApellidos,nFecha);
+     return redirect(controllers.routes.UsuarioController.detalleUsuario(idUsuario));
    }
 
 }

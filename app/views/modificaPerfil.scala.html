@@ -1,0 +1,24 @@
+@(idUsuario: Long, uLogin: String, uEmail: String, uNombre: String, uApellidos: String, uFecha: String, mensaje: String)
+@main("Modificar Perfil") {
+   @if(mensaje != "") {
+      <div class="alert alert-danger">
+         @mensaje
+      </div>
+   }
+   <h1>Modificar Perfil</h1>
+   @helper.form(action = routes.UsuarioController.grabarUsuarioActualizado(idUsuario)) {
+      <fieldset>
+         <legend>Perfil de @uLogin</legend>
+         Login:  <input type="text" size=70 name="login" value= "@uLogin" readonly><br>
+         Email:  <input type="text" size=70 name="email" value= "@uEmail"><br>
+         Nombre:  <input type="text" size=70 name="nombre" value= "@uNombre"><br>
+         Apellidos:  <input type="text" size=70 name="apellidos" value= "@uApellidos"><br>
+         Fecha de Nacimiento:  <input type="text" size=70 name="fecha" value= "@uFecha" placeholder="dd-MM-yyyy"><br>
+      </fieldset>
+      <p/>
+      <p>
+         <input type="submit" class="btn btn-primary" value="Guardar">
+         <a class="btn btn-warning" href="@routes.UsuarioController.detalleUsuario(idUsuario)">Cancelar</a>
+      </p>
+   }
+}

@@ -26,7 +26,8 @@ GET     /usuarios/:id/tareas        controllers.GestionTareasController.listaTar
 GET     /tareas/:id/editar          controllers.GestionTareasController.formularioEditaTarea(id: Long)
 POST    /tareas/:id/editar          controllers.GestionTareasController.grabaTareaModificada(id: Long)
 DELETE  /tareas/:id                 controllers.GestionTareasController.borraTarea(id: Long)
-GET     /usuario/:id/editar         controllers.UsuarioController.formularioEditarPerfil(id: Long)
+GET     /usuarios/:id/editar         controllers.UsuarioController.formularioEditarPerfil(id: Long)
+POST    /usuarios/:id/editar         controllers.UsuarioController.grabarUsuarioActualizado(id: Long)
 
 
 # Map static resources from the /public folder to the /assets URL path
