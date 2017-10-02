@@ -1,8 +1,9 @@
 @(usuario: Usuario)
 
 @main("Detalle de usuario") {
-   <h1>Detalle del usuario @usuario.getId()</h1>
-   <ul>
+
+   <h1>Perfil del usuario @usuario.getId()</h1>
+      <ul>
       <li><strong>Login: </strong> @usuario.getLogin()</li>
       <li><strong>Email: </strong> @usuario.getEmail()</li>
       <li><strong>Nombre: </strong> @usuario.getNombre()</li>
@@ -12,4 +13,7 @@
                 @usuario.getFechaNacimiento().format("dd-MM-yyyy")
             }</li>
    </ul>
+   <a href=""><span class="glyphicon glyphicon-pencil" style="margin-right:5px"></span>Editar Perfil</a>
+   <br>
+   <a href="@usuario.getId()/tareas"><span class="glyphicon glyphicon-list-alt" style="margin-right:5px"></span>Consultar Tareas</a>
 }
