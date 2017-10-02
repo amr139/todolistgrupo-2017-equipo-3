@@ -13,7 +13,7 @@
                 @usuario.getFechaNacimiento().format("dd-MM-yyyy")
             }</li>
    </ul>
-   <a href=""><span class="glyphicon glyphicon-pencil" style="margin-right:5px"></span>Editar Perfil</a>
+   <a href="@routes.UsuarioController.formularioEditarPerfil(usuario.getId())"><span class="glyphicon glyphicon-pencil" style="margin-right:5px"></span>Editar Perfil</a>
    <br>
    <a href="@usuario.getId()/tareas"><span class="glyphicon glyphicon-list-alt" style="margin-right:5px"></span>Consultar Tareas</a>
 }
