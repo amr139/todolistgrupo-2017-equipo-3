@@ -24,25 +24,27 @@ import models.JPAUsuarioRepository;
 import models.TareaRepository;
 import models.JPATareaRepository;
 
+import play.inject.guice.GuiceApplicationBuilder;
+import play.inject.Injector;
+import play.inject.guice.GuiceInjectorBuilder;
+import play.Environment;
+
 public class TareaTest {
   static Database db;
   static JPAApi jpaApi;
+  static private Injector injector;
+
 
   //Se ejecuta solo una vez, al principio de todos los testCrearTarea
   @BeforeClass
-  static public void initDatabase(){
-    //Inicializamos la BD en memoria y su nombre JNDI
-    db = Databases.inMemoryWith("jndiName","DBTest");
-    db.getConnection();
-    // Se activa la compatibilidad MySQL en la BD H2
-    db.withConnection(connection -> {
-      connection.createStatement().execute("SET MODE MySQL;");
-    });
-    //Activamos en JPA la unidad de persistencia "memoryPersistenceUnit"
-    //declarada en Meta-INF/persistence.xml y obtenemos el objeto
-    // JPAApi
-    jpaApi = JPA.createFor("memoryPersistenceUnit");
-  }
+  static public void initApplication() {
+    GuiceApplicationBuilder guiceApplicationBuilder =
+      new GuiceApplicationBuilder().in(Environment.simple());
+    injector = guiceApplicationBuilder.injector();
+    db = injector.instanceOf(Database.class);
+    // Necesario para inicializar JPA
+    injector.instanceOf(JPAApi.class);
+   }
 
   @Before
   public void initData() throws Exception {
@@ -52,6 +54,14 @@ public class TareaTest {
     databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
     databaseTester.onSetup();
   }
+
+  private UsuarioRepository newUsuarioRepository() {
+     return injector.instanceOf(UsuarioRepository.class);
+   }
+
+   private TareaRepository newTareaRepository() {
+      return injector.instanceOf(TareaRepository.class);
+    }
 
    // Test #11: testCrearTarea
    @Test
@@ -92,9 +102,9 @@ public class TareaTest {
    //Test #16: testAddTareaJPARepositoryInsertsTareaDatabase
    @Test
    public void testAddTareaJPARepositoryInsertsTareaDatabase(){
-     assertNotNull(jpaApi);
-     UsuarioRepository usuarioRepository = new JPAUsuarioRepository(jpaApi);
-     TareaRepository tareaRepository = new JPATareaRepository(jpaApi);
+     assertNotNull(injector);
+     UsuarioRepository usuarioRepository = newUsuarioRepository();
+     TareaRepository tareaRepository = newTareaRepository();
      Usuario usuario = new Usuario("juangutierrez","juangutierrez@gmail.com");
      usuario = usuarioRepository.add(usuario);
      Tarea tarea = new Tarea(usuario,"Renovar DNI");
@@ -119,7 +129,7 @@ public class TareaTest {
    //Test #17 testFindTareaById()
    @Test
    public void testFindTareaById(){
-     TareaRepository repository = new JPATareaRepository(jpaApi);
+     TareaRepository repository = newTareaRepository();
      Tarea tarea = repository.findById(1000L);
      assertEquals("Renovar DNI",tarea.getTitulo());
 
@@ -128,9 +138,8 @@ public class TareaTest {
    //Test #18 testFindAllTareasUsuario
    @Test
    public void testFindAllTareasUsuario(){
-     TareaRepository repository = new JPATareaRepository(jpaApi);
-     Long idUsuario = 1000L;
-     List<Tarea> tareas= repository.findAllTareas(idUsuario);
-     assertEquals(2,tareas.size());
+     UsuarioRepository repository = newUsuarioRepository();
+     Usuario usuario = repository.findById(1000L);
+     assertEquals(2,usuario.getTareas().size());
    }
 }
