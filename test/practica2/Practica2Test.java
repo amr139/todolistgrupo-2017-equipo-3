@@ -70,20 +70,38 @@ public class Practica2Test {
       databaseTester.onSetup();
    }
 
-   //Test1: findUsuarioPorIdReturnNULL
+   //Test1: testFindUsuarioPorIdReturnNULL
    @Test
-   public void findUsuarioPorIdReturnNULL(){
+   public void testFindUsuarioPorIdReturnNULL(){
      UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
      Usuario user = repository.findById(2001L);
      assertNull(user);
    }
 
-   //Test2: borraTareaThrowsException
+   //Test2: testborraTareaThrowsException
    @Test(expected = java.lang.RuntimeException.class)
-   public void borraTareaThrowsException(){
+   public void testborraTareaThrowsException(){
      TareaRepository repository = new JPATareaRepository(jpaApi);
      repository.delete(1234L);
    }
 
+   //Test3: testEqualsFindUserByTareaId
+   @Test
+   public void testEqualsFindUserByTareaId(){
+      TareaRepository repository = new JPATareaRepository(jpaApi);
+      Usuario us1 = repository.findById(1000L).getUsuario();
+      Usuario us2 = repository.findById(1001L).getUsuario();
+      assertEquals(us1.getEmail(),us2.getEmail());
+   }
+
+   //Test #17 testTareaDistintaFindByID()
+   @Test
+   public void testTareaDistintaFindByID(){
+     TareaRepository repository = new JPATareaRepository(jpaApi);
+     Tarea t1 = repository.findById(1000L);
+     Tarea t2 = repository.findById(2000L);
+     assertNotEquals(t1,t2);
+
+   }
 
  }
