@@ -22,6 +22,11 @@ import java.io.FileInputStream;
 import models.Usuario;
 import models.UsuarioRepository;
 import models.JPAUsuarioRepository;
+import models.Tarea;
+import models.TareaRepository;
+import models.JPATareaRepository;
+import services.TareaService;
+import services.TareaServiceException;
 
 public class Practica2Test {
    static Database db;
@@ -65,10 +70,19 @@ public class Practica2Test {
       databaseTester.onSetup();
    }
 
+   //Test1: findUsuarioPorIdReturnNULL
    @Test
-   public void Test1(){
-     int a = 1 + 1;
-     assertEquals(a,2);
+   public void findUsuarioPorIdReturnNULL(){
+     UsuarioRepository repository = new JPAUsuarioRepository(jpaApi);
+     Usuario user = repository.findById(2001L);
+     assertNull(user);
+   }
+
+   //Test2: borraTareaThrowsException
+   @Test(expected = java.lang.RuntimeException.class)
+   public void borraTareaThrowsException(){
+     TareaRepository repository = new JPATareaRepository(jpaApi);
+     repository.delete(1234L);
    }
 
 
