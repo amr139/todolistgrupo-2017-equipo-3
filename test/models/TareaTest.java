@@ -31,7 +31,6 @@ import play.Environment;
 
 public class TareaTest {
   static Database db;
-  static JPAApi jpaApi;
   static private Injector injector;
 
 
