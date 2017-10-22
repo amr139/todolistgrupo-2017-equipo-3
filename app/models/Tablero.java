@@ -1,24 +1,45 @@
 package models;
 
-public class Tablero {
+import javax.persistence.*;
 
+@Entity
+public class Tablero {
+  @Id
+  @GeneratedValue(strategy=GenerationType.AUTO)
+  Long id;
   private String nombre;
-  private Usuario Administrador;
+  @ManyToOne
+  @JoinColumn(name="administradorId")
+  private Usuario administrador;
 
   public Tablero() {}
 
-  public Tablero(Usuario usuario, String titulo) {
-     this.Administrador = usuario;
-     this.nombre = titulo;
+  public Tablero(Usuario administrador, String nombre) {
+     this.nombre = nombre;
+     this.administrador = administrador;
   }
 
-  public Usuario getAdministrador() {
-    return this.Administrador;
-  }
+   public Long getId() {
+     return id;
+   }
+
+   public void setId(Long id) {
+     this.id = id;
+   }
 
   public String getNombre() {
-    return this.nombre;
+     return nombre;
   }
 
+   public void setNombre(String nombre) {
+     this.nombre = nombre;
+   }
 
+  public Usuario getAdministrador() {
+     return administrador;
+  }
+
+   public void setAdministrador(Usuario usuario) {
+     this.administrador = administrador;
+   }
 }
