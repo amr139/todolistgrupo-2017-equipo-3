@@ -7,4 +7,5 @@
     <Tarea id="1000" titulo="Renovar DNI" usuarioId="1000"/>
     <Tarea id="1001" titulo="Práctica 1 MADS" usuarioId="1000"/>
     <Tarea id="2000" titulo="Hacernos reir" usuarioId="2000"/>
+    <Tablero/>
   </dataset>
