@@ -80,8 +80,8 @@ public class TareaTest {
       Tarea tarea1 = new Tarea(usuario, "Práctica 1 de MADS");
       Tarea tarea2 = new Tarea(usuario, "Renovar DNI");
       Tarea tarea3 = new Tarea(usuario, "Pagar el alquiler");
-      tarea1.setId(1L);
-      tarea2.setId(1L);
+      tarea1.setId(1000L);
+      tarea2.setId(1000L);
       tarea3.setId(2L);
       assertEquals(tarea1, tarea2);
       assertNotEquals(tarea1, tarea3);
@@ -115,7 +115,7 @@ public class TareaTest {
 
    private String getTituloFromTareaDB(Long tareaId) {
      String titulo = db.withConnection(connection -> {
-         String selectStatement = "SELECT TITULO FROM TAREA WHERE ID = ? ";
+         String selectStatement = "SELECT TITULO FROM Tarea WHERE ID = ? ";
          PreparedStatement prepStmt = connection.prepareStatement(selectStatement);
          prepStmt.setLong(1, tareaId);
          ResultSet rs = prepStmt.executeQuery();
