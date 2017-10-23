@@ -8,6 +8,8 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.Logger;
 
+import java.util.List;
+
 import services.UsuarioService;
 import services.TareaService;
 import services.TableroService;
@@ -50,8 +52,22 @@ public class GestionTablerosController extends Controller {
        }
        Tablero tablero = tableroForm.get();
        tableroService.nuevoTablero(idUsuario, tablero.getNombre());
-       int numTableros = tableroService.allTablerosAdministradosUser(idUsuario).size();
-       return ok(saludo.render("Total tableros administrados: " + numTableros));
+       flash("aviso","El tablero se ha grabado correctamente");
+       return redirect(controllers.routes.GestionTablerosController.listaTablerosAdmin(idUsuario));
+    }
+  }
+
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result listaTablerosAdmin(Long idUsuario){
+    String connectedUserStr = session("connected");
+    Long connectedUser = Long.valueOf(connectedUserStr);
+    if(connectedUser != idUsuario) {
+      return unauthorized("Lo siento, no estas autorizado");
+    } else {
+      String aviso = flash("aviso");
+      Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
+      List<Tablero> tableros = tableroService.allTablerosAdministradosUser(idUsuario);
+      return ok(listarTablerosAdmin.render(tableros, usuario, aviso));
     }
   }
 
