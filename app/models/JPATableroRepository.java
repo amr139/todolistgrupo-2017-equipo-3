@@ -24,4 +24,17 @@ public class JPATableroRepository implements TableroRepository {
       });
    }
 
+   public Tablero update(Tablero tablero) {
+      return jpaApi.withTransaction(entityManager -> {
+         Tablero actualizado = entityManager.merge(tablero);
+         return actualizado;
+      });
+   }
+
+   public Tablero findById(Long idTablero) {
+      return jpaApi.withTransaction(entityManager -> {
+         return entityManager.find(Tablero.class, idTablero);
+      });
+   }
+
 }
