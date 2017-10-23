@@ -34,7 +34,6 @@ import services.TareaServiceException;
 
 public class TareaServiceTest {
    static private Injector injector;
-   static JPAApi jpaApi;
 
    @BeforeClass
    static public void initApplication() {
