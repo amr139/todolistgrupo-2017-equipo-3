@@ -14,6 +14,8 @@ import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.*;
 import java.io.FileInputStream;
 
+import java.util.List;
+
 import models.Tablero;
 import models.TableroRepository;
 import services.TableroService;
@@ -52,4 +54,14 @@ public class TableroServiceTest {
      assertEquals("Tablero de prueba", tablero.getNombre());
      assertEquals("juan.gutierrez@gmail.com", tablero.getAdministrador().getEmail());
    }
+
+   //Test 2: crearNuevoUsuarioCorrectoTest
+   @Test
+   public void obtenerListadoTablerosAdministradosByUserTest(){
+      TableroService tableroService = newTableroService();
+      long idUsuario = 1000L;
+      List<Tablero> tablerosAdministrados = tableroService.allTablerosAdministradosUser(idUsuario);
+      assertEquals(tablerosAdministrados.size(),2);
+    }
+
 }
