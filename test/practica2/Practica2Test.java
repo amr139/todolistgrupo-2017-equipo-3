@@ -38,8 +38,6 @@ public class Practica2Test {
    static private Injector injector;
 
    // Se ejecuta sólo una vez, al principio de todos los tests
-
-
    @BeforeClass
    static public void initApplication() {
      GuiceApplicationBuilder guiceApplicationBuilder =
@@ -97,7 +95,7 @@ public class Practica2Test {
    public void testTareaDistintaFindByID(){
      TareaRepository repository = newTareaRepository();
      Tarea t1 = repository.findById(1000L);
-     Tarea t2 = repository.findById(2000L);
+     Tarea t2 = repository.findById(1001L);
      assertNotEquals(t1,t2);
 
    }

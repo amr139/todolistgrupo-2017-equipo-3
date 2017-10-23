@@ -69,8 +69,10 @@ public class ModeloRepositorioTableroTest {
    public void testCrearTablaTableroEnBD() throws Exception {
       Connection connection = db.getConnection();
       DatabaseMetaData meta = connection.getMetaData();
-      ResultSet res = meta.getTables(null, null, "TABLERO", new String[] {"TABLE"});
-      assertTrue(res.next());
+      ResultSet resH2 = meta.getTables(null, null, "TABLERO", new String[] {"TABLE"});
+      ResultSet resMySQL = meta.getTables(null, null, "Tablero", new String[] {"TABLE"});
+      boolean existeTabla = resH2.next() || resMySQL.next();
+      assertTrue(existeTabla);
   }
 
   @Test
