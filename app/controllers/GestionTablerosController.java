@@ -53,12 +53,12 @@ public class GestionTablerosController extends Controller {
        Tablero tablero = tableroForm.get();
        tableroService.nuevoTablero(idUsuario, tablero.getNombre());
        flash("aviso","El tablero se ha grabado correctamente");
-       return redirect(controllers.routes.GestionTablerosController.listaTablerosAdmin(idUsuario));
+       return redirect(controllers.routes.GestionTablerosController.listarTableros(idUsuario));
     }
   }
 
   @Security.Authenticated(ActionAuthenticator.class)
-  public Result listaTablerosAdmin(Long idUsuario){
+  public Result listarTableros(Long idUsuario){
     String connectedUserStr = session("connected");
     Long connectedUser = Long.valueOf(connectedUserStr);
     if(connectedUser != idUsuario) {
@@ -66,9 +66,25 @@ public class GestionTablerosController extends Controller {
     } else {
       String aviso = flash("aviso");
       Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
-      List<Tablero> tableros = tableroService.allTablerosAdministradosUser(idUsuario);
-      return ok(listarTablerosAdmin.render(tableros, usuario, aviso));
+      List<Tablero> tablerosADMIN = tableroService.allTablerosAdministradosUser(idUsuario);
+      List<Tablero> tablerosJOINED = tableroService.allTablerosParticipadosUser(idUsuario);
+      List<Tablero> tablerosFREE = tableroService.allTablerosNoApuntadosUser(idUsuario);
+      return ok(listadoTableros.render(tablerosADMIN, tablerosJOINED, tablerosFREE, usuario, aviso));
     }
   }
 
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result añadirParticipante(Long idUsuario,Long idTablero){
+    String connectedUserStr = session("connected");
+    Long connectedUser = Long.valueOf(connectedUserStr);
+    if(connectedUser != idUsuario) {
+      return unauthorized("Lo siento, no estas autorizado");
+    } else {
+      Tablero tablero = tableroService.encontrarTablero(idTablero);
+      if(tablero==null) return notFound("Tablero no encontrado");
+      tableroService.añadirParticipante(idUsuario,idTablero);
+      return redirect(controllers.routes.GestionTablerosController.listarTableros(idUsuario));
+
+    }
+  }
 }

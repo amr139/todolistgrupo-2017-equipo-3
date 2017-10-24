@@ -3,6 +3,8 @@ package services;
 import javax.inject.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -20,6 +22,10 @@ public class TableroService {
   public TableroService(UsuarioRepository usuarioRepository, TableroRepository tableroRepository){
     this.usuarioRepository = usuarioRepository;
     this.tableroRepository = tableroRepository;
+  }
+
+  public Tablero encontrarTablero(Long idTablero){
+    return tableroRepository.findById(idTablero);
   }
 
   public Tablero nuevoTablero(Long idUsuario,String titulo){
@@ -53,7 +59,7 @@ public class TableroService {
     return tablerosParticipados;
   }
 
-  public List<Tablero> allTablerosNoApuntadosUser(long idUsuario){
+  public List<Tablero> allTablerosNoApuntadosUser(Long idUsuario){
     Usuario usuario = usuarioRepository.findById(idUsuario);
     if(usuario==null){
       throw new TableroServiceException("Usuario no existente");
@@ -69,5 +75,32 @@ public class TableroService {
     Collections.sort(listaFinal, (a,b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
     return listaFinal;
   }
+
+  public Tablero añadirParticipante(Long idUsuario, Long idTablero){
+    Usuario usuario = usuarioRepository.findById(idUsuario);
+    if(usuario==null){
+      throw new TableroServiceException("Usuario no existente");
+    }
+    Tablero tablero = tableroRepository.findById(idTablero);
+    if(tablero==null){
+      throw new TableroServiceException("Tablero no existente");
+    }
+
+    List<Usuario> listaParticipantes = new ArrayList<Usuario>();
+    listaParticipantes.addAll(tablero.getParticipantes());
+
+    if(listaParticipantes.contains(usuario)){
+      throw new TableroServiceException("Usuario ya participa");
+    }
+    listaParticipantes.add(usuario);
+    Set<Usuario> foo = new HashSet<Usuario>(listaParticipantes);
+    tablero.setParticipantes(foo);
+    tablero = tableroRepository.update(tablero);
+    return tablero;
+
+  }
+
+
+
 
 }

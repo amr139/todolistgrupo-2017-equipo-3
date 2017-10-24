@@ -85,4 +85,14 @@ public class TableroServiceTest {
         assertEquals(tablerosNoInside.size(),1);
       }
 
+      //Test 5
+      @Test
+      public void añadirParticipanteTest(){
+         TableroService tableroService = newTableroService();
+         Long idTablero = 1001L;
+         Long idUsuario = 1001L;
+         Tablero tablero = tableroService.añadirParticipante(idUsuario, idTablero);
+         assertEquals(tablero.getParticipantes().size(),1);
+       }
+
 }
