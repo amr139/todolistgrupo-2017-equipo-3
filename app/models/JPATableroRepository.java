@@ -43,4 +43,12 @@ public class JPATableroRepository implements TableroRepository {
      });
    }
 
+   /*public int addParticipanteTablero(Long idUsuario, Long idTablero){
+     return jpaApi.withTransaction(entityManager -> {
+       Query query = entityManager.createNativeQuery("INSERT INTO Persona_Tablero (tableros_id,participantes_id) values (1001,1001);");
+        return query.executeUpdate();
+     });
+   }*/
+
+
 }

@@ -13,7 +13,7 @@ public class Tablero {
   @ManyToOne
   @JoinColumn(name="administradorId")
   private Usuario administrador;
-  @ManyToMany(fetch=FetchType.EAGER)
+  @ManyToMany(fetch=FetchType.EAGER,cascade =CascadeType.ALL)
   @JoinTable(name="Persona_Tablero")
   private Set<Usuario> participantes = new HashSet<Usuario>();
 
