@@ -53,28 +53,28 @@ public class TableroServiceTest {
      assertNotNull(tablero);
      assertEquals("Tablero de prueba", tablero.getNombre());
      assertEquals("juan.gutierrez@gmail.com", tablero.getAdministrador().getEmail());
+  }
+
+  //Test 2
+  @Test
+  public void obtenerListadoTablerosAdministradosByUserTest(){
+    TableroService tableroService = newTableroService();
+    long idUsuario = 1000L;
+    List<Tablero> tablerosAdministrados = tableroService.allTablerosAdministradosUser(idUsuario);
+    assertEquals(tablerosAdministrados.size(),2);
+  }
+
+  //Test 3
+  @Test
+  public void obtenerListadoTablerosParticipaByUserTest(){
+     TableroService tableroService = newTableroService();
+     long idUsuario = 1000L;
+     List<Tablero> tablerosParticipados = tableroService.allTablerosParticipadosUser(idUsuario);
+     assertEquals(tablerosParticipados.size(),0);
+     idUsuario = 1001L;
+     tablerosParticipados = tableroService.allTablerosParticipadosUser(idUsuario);
+     assertEquals(tablerosParticipados.size(),1);
    }
-
-   //Test 2
-   @Test
-   public void obtenerListadoTablerosAdministradosByUserTest(){
-      TableroService tableroService = newTableroService();
-      long idUsuario = 1000L;
-      List<Tablero> tablerosAdministrados = tableroService.allTablerosAdministradosUser(idUsuario);
-      assertEquals(tablerosAdministrados.size(),2);
-    }
-
-    //Test 3
-    @Test
-    public void obtenerListadoTablerosParticipaByUserTest(){
-       TableroService tableroService = newTableroService();
-       long idUsuario = 1000L;
-       List<Tablero> tablerosParticipados = tableroService.allTablerosParticipadosUser(idUsuario);
-       assertEquals(tablerosParticipados.size(),0);
-       idUsuario = 1001L;
-       tablerosParticipados = tableroService.allTablerosParticipadosUser(idUsuario);
-       assertEquals(tablerosParticipados.size(),1);
-     }
 
      //Test 4
      @Test
@@ -83,7 +83,7 @@ public class TableroServiceTest {
         long idUsuario = 1001L;
         List<Tablero> tablerosNoInside = tableroService.allTablerosNoApuntadosUser(idUsuario);
         assertEquals(tablerosNoInside.size(),1);
-      }
+  }
 
       //Test 5
       @Test
@@ -93,6 +93,18 @@ public class TableroServiceTest {
          Long idUsuario = 1001L;
          Tablero tablero = tableroService.añadirParticipante(idUsuario, idTablero);
          assertEquals(tablero.getParticipantes().size(),1);
-       }
+     }
+
+     //Test 6
+     @Test
+     public void descripcionTableroTest(){
+        TableroService tableroService = newTableroService();
+        Long idTablero = 1001L;
+        Long idUsuario = 1001L;
+        Tablero tablero = tableroService.añadirParticipante(idUsuario, idTablero);
+        assertEquals(tablero.getNombre(),"Tablero test 2");
+        assertEquals(tablero.getAdministrador().getNombre(),"Juan");
+        assertEquals(tablero.getParticipantes().size(),1);
+    }
 
 }
