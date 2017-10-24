@@ -76,4 +76,13 @@ public class TableroServiceTest {
        assertEquals(tablerosParticipados.size(),1);
      }
 
+     //Test 4
+     @Test
+     public void obtenerListadoTablerosNoApuntadosTest(){
+        TableroService tableroService = newTableroService();
+        long idUsuario = 1001L;
+        List<Tablero> tablerosNoInside = tableroService.allTablerosNoApuntadosUser(idUsuario);
+        assertEquals(tablerosNoInside.size(),1);
+      }
+
 }

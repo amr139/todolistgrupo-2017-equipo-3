@@ -53,4 +53,21 @@ public class TableroService {
     return tablerosParticipados;
   }
 
+  public List<Tablero> allTablerosNoApuntadosUser(long idUsuario){
+    Usuario usuario = usuarioRepository.findById(idUsuario);
+    if(usuario==null){
+      throw new TableroServiceException("Usuario no existente");
+    }
+    List<Tablero> tablerosNoParticipados = new ArrayList<Tablero>();
+    tablerosNoParticipados.addAll(tableroRepository.findAllTablerosNoParticipa(idUsuario));
+    List<Tablero> listaFinal = new ArrayList<Tablero>();
+    for(Tablero tablerotemp : tablerosNoParticipados){
+      if(!tablerotemp.getAdministrador().getId().equals(idUsuario)){
+        listaFinal.add(tablerotemp);
+      }
+    }
+    Collections.sort(listaFinal, (a,b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+    return listaFinal;
+  }
+
 }
