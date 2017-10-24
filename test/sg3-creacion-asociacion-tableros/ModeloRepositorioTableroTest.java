@@ -125,7 +125,7 @@ public class ModeloRepositorioTableroTest {
       Set<Tablero> tableros = admin.getAdministrados();
       // Tras cargar los datos del dataset el usuario2 no tiene ningún
       // tablero asociado y el usuario 1 tiene 2 tableros administrados
-      assertEquals(0, usuario.getTableros().size());
+      assertEquals(1, usuario.getTableros().size());
       assertEquals(2, tableros.size());
       for (Tablero tablero : tableros) {
          // Actualizamos la relación en memoria, añadiendo el usuario
@@ -154,7 +154,7 @@ public class ModeloRepositorioTableroTest {
       Usuario usuario1 = usuarioRepository.findById(1000L);
       Usuario usuario2 = usuarioRepository.findById(1001L);
       Usuario usuario3 = usuarioRepository.findById(1002L);
-      assertEquals(0, tablero.getParticipantes().size());
+      assertEquals(1, tablero.getParticipantes().size());
       assertEquals(0, usuario1.getTableros().size());
       // Añadimos los 3 usuarios al tablero
       tablero.getParticipantes().add(usuario1);

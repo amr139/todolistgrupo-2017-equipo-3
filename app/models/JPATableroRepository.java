@@ -37,4 +37,10 @@ public class JPATableroRepository implements TableroRepository {
       });
    }
 
+   public List<Tablero> findAllTablerosNoParticipa(Long idUsuario){
+     return jpaApi.withTransaction(entityManager -> {
+        return  entityManager.createNativeQuery("SELECT t.* FROM Tablero t LEFT JOIN Persona_Tablero pt ON t.id=pt.tableros_id WHERE pt.participantes_id NOT IN ("+idUsuario+") OR pt.participantes_id IS NULL",Tablero.class).getResultList();
+     });
+   }
+
 }

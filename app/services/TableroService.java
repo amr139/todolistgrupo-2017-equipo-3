@@ -25,7 +25,7 @@ public class TableroService {
   public Tablero nuevoTablero(Long idUsuario,String titulo){
     Usuario usuario = usuarioRepository.findById(idUsuario);
     if(usuario == null){
-      throw new TareaServiceException("Usuario no existente");
+      throw new TableroServiceException("Usuario no existente");
     }
     Tablero tablero = new Tablero(usuario, titulo);
     return tableroRepository.add(tablero);
@@ -34,12 +34,40 @@ public class TableroService {
   public List<Tablero> allTablerosAdministradosUser(long idUsuario){
     Usuario usuario = usuarioRepository.findById(idUsuario);
     if(usuario==null){
-      throw new TareaServiceException("Usuario no existente");
+      throw new TableroServiceException("Usuario no existente");
     }
     List<Tablero> tablerosAdmin = new ArrayList<Tablero>();
     tablerosAdmin.addAll(usuario.getAdministrados());
     Collections.sort(tablerosAdmin, (a,b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
     return tablerosAdmin;
+  }
+
+  public List<Tablero> allTablerosParticipadosUser(long idUsuario){
+    Usuario usuario = usuarioRepository.findById(idUsuario);
+    if(usuario==null){
+      throw new TableroServiceException("Usuario no existente");
+    }
+    List<Tablero> tablerosParticipados = new ArrayList<Tablero>();
+    tablerosParticipados.addAll(usuario.getTableros());
+    Collections.sort(tablerosParticipados, (a,b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+    return tablerosParticipados;
+  }
+
+  public List<Tablero> allTablerosNoApuntadosUser(long idUsuario){
+    Usuario usuario = usuarioRepository.findById(idUsuario);
+    if(usuario==null){
+      throw new TableroServiceException("Usuario no existente");
+    }
+    List<Tablero> tablerosNoParticipados = new ArrayList<Tablero>();
+    tablerosNoParticipados.addAll(tableroRepository.findAllTablerosNoParticipa(idUsuario));
+    List<Tablero> listaFinal = new ArrayList<Tablero>();
+    for(Tablero tablerotemp : tablerosNoParticipados){
+      if(!tablerotemp.getAdministrador().getId().equals(idUsuario)){
+        listaFinal.add(tablerotemp);
+      }
+    }
+    Collections.sort(listaFinal, (a,b) -> a.getId() < b.getId() ? -1 : a.getId() == b.getId() ? 0 : 1);
+    return listaFinal;
   }
 
 }
