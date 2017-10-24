@@ -44,7 +44,7 @@ public class TableroServiceTest {
     return injector.instanceOf(TableroService.class);
   }
 
-  //Test 1: crearNuevoUsuarioCorrectoTest
+  //Test 1
   @Test
   public void crearNuevoTableroCorrectoTest(){
      TableroService tableroService = newTableroService();
@@ -55,7 +55,7 @@ public class TableroServiceTest {
      assertEquals("juan.gutierrez@gmail.com", tablero.getAdministrador().getEmail());
    }
 
-   //Test 2: crearNuevoUsuarioCorrectoTest
+   //Test 2
    @Test
    public void obtenerListadoTablerosAdministradosByUserTest(){
       TableroService tableroService = newTableroService();
@@ -63,5 +63,17 @@ public class TableroServiceTest {
       List<Tablero> tablerosAdministrados = tableroService.allTablerosAdministradosUser(idUsuario);
       assertEquals(tablerosAdministrados.size(),2);
     }
+
+    //Test 3
+    @Test
+    public void obtenerListadoTablerosParticipaByUserTest(){
+       TableroService tableroService = newTableroService();
+       long idUsuario = 1000L;
+       List<Tablero> tablerosParticipados = tableroService.allTablerosParticipadosUser(idUsuario);
+       assertEquals(tablerosParticipados.size(),0);
+       idUsuario = 1001L;
+       tablerosParticipados = tableroService.allTablerosParticipadosUser(idUsuario);
+       assertEquals(tablerosParticipados.size(),1);
+     }
 
 }
