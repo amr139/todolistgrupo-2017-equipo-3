@@ -9,6 +9,7 @@ import play.data.FormFactory;
 import play.Logger;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import services.UsuarioService;
 import services.TareaService;
@@ -18,8 +19,6 @@ import models.Tarea;
 import models.Tablero;
 
 import security.ActionAuthenticator;
-
-
 
 public class GestionTablerosController extends Controller {
   @Inject FormFactory formFactory;
@@ -87,4 +86,20 @@ public class GestionTablerosController extends Controller {
 
     }
   }
+
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result mostrarDetalleTablero(Long idUsuario, Long idTablero){
+    String connectedUserStr = session("connected");
+    Long connectedUser = Long.valueOf(connectedUserStr);
+    if(connectedUser != idUsuario) {
+      return unauthorized("Lo siento, no estas autorizado");
+    } else {
+      Tablero tablero = tableroService.encontrarTablero(idTablero);
+      if(tablero==null) return notFound("Tablero no encontrado");
+      List<Usuario> lista = new ArrayList<Usuario>();
+      lista.addAll(tablero.getParticipantes());
+      return ok(desgloseTablero.render(tablero,lista, idUsuario));
+    }
+  }
+
 }

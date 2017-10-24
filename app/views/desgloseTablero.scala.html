@@ -1,0 +1,21 @@
+@(tablero: Tablero, usuarios: List[Usuario], idUsuario: Long)
+
+@main("Detalle del Tablero") {
+
+   <h1>Detalle del tablero @tablero.getId()</h1>
+      <ul>
+      <li><strong>Nombre: </strong> @tablero.getNombre()</li>
+      <li><strong>Administrador: </strong> @tablero.getAdministrador().getEmail()</li>
+      <li><strong>Participantes: </strong></li>
+
+      @for(usuario <- usuarios) {
+        <li> - Participante: @usuario.getEmail()</li>
+      }
+
+   </ul>
+   <br>
+   <a href="@routes.UsuarioController.detalleUsuario(idUsuario)"><span class="glyphicon glyphicon-list-alt" style="margin-right:5px"></span>Ver mi Perfil</a>
+   <br>
+   <a href="@routes.GestionTablerosController.listarTableros(idUsuario)"><span class="glyphicon glyphicon-list-alt" style="margin-right:5px"></span>Ver Tableros</a>
+
+}
