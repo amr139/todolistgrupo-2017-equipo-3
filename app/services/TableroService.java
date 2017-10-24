@@ -59,7 +59,7 @@ public class TableroService {
     return tablerosParticipados;
   }
 
-  public List<Tablero> allTablerosNoApuntadosUser(long idUsuario){
+  public List<Tablero> allTablerosNoApuntadosUser(Long idUsuario){
     Usuario usuario = usuarioRepository.findById(idUsuario);
     if(usuario==null){
       throw new TableroServiceException("Usuario no existente");

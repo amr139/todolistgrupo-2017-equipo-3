@@ -29,9 +29,10 @@ DELETE  /tareas/:id                 controllers.GestionTareasController.borraTar
 GET     /usuarios/:id/editar        controllers.UsuarioController.formularioEditarPerfil(id: Long)
 POST    /usuarios/:id/editar        controllers.UsuarioController.grabarUsuarioActualizado(id: Long)
 
-GET     /usuarios/:id/tablero/nuevo  controllers.GestionTablerosController.formularioNuevoTablero(id: Long)
-POST    /usuarios/:id/tablero/nuevo  controllers.GestionTablerosController.creaNuevoTablero(id: Long)
-GET    /usuarios/:id/tableros        controllers.GestionTablerosController.listaTablerosAdmin(id: Long)
+GET     /usuarios/:id/tablero/nuevo            controllers.GestionTablerosController.formularioNuevoTablero(id: Long)
+POST    /usuarios/:id/tablero/nuevo            controllers.GestionTablerosController.creaNuevoTablero(id: Long)
+GET    /usuarios/:id/tableros                  controllers.GestionTablerosController.listaTablerosAdmin(id: Long)
+GET    /usuarios/:id/tableros/notjoined        controllers.GestionTablerosController.listaTablerosNoApuntado(id: Long)
 
 
 # Map static resources from the /public folder to the /assets URL path

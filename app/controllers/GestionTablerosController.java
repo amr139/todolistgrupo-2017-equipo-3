@@ -71,4 +71,19 @@ public class GestionTablerosController extends Controller {
     }
   }
 
+  @Security.Authenticated(ActionAuthenticator.class)
+  public Result listaTablerosNoApuntado(Long idUsuario){
+    String connectedUserStr = session("connected");
+    Long connectedUser = Long.valueOf(connectedUserStr);
+    if(connectedUser != idUsuario) {
+      return unauthorized("Lo siento, no estas autorizado");
+    } else {
+      String aviso = flash("aviso");
+      Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
+      List<Tablero> tableros = tableroService.allTablerosNoApuntadosUser(idUsuario);
+      return ok(listaTablerosNoApuntado.render(tableros, usuario, aviso));
+    }
+  }
+
+
 }
