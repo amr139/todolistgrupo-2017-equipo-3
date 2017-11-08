@@ -1,0 +1,14 @@
+//RUN
+docker run -d --rm -p 80:9000 aaa89/mads-todolist-2017:1.0
+
+//EJECUTAR TEST MEMORIA
+docker run --rm aaa89/mads-todolist-2017:1.0  /bin/bash -c "sbt test"
+
+//LEVANTAR DOCKER MYSQL
+docker run -d --rm -p 3306:3306 --name play-mysql -e MYSQL_ROOT_PASSWORD=mads -e MYSQL_DATABASE=mads mysql
+
+
+//EJECUTAR TEST MYSQL
+docker run --link play-mysql:mysql --rm -e DB_URL="jdbc:mysql://play-mysql:3306/mads" \
+     -e DB_USER_NAME="root" -e DB_USER_PASSWD="mads" aaa89/mads-todolist-2017:1.0 \
+     /bin/bash -c "sbt '; set javaOptions += \"-Dconfig.file=conf/integration.conf\"; test'"
