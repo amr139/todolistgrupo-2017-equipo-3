@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 # Hola mundo 
 
 # Play Java Starter
+=======
+# Play Java Starte
+>>>>>>> 2d3644818be36c9bc0ccc06b8d9f578f19a34fa1
 
 This is a starter application that shows how Play works.  Please see the documentation at https://www.playframework.com/documentation/latest/Home for more details.
 
