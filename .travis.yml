@@ -1,0 +1,12 @@
+sudo: required
+
+language: bash
+
+services:
+  - docker
+
+before_install:
+   - docker build -t aaa89/mads-todolist-2017:1.0 .
+
+script:
+   - docker run --rm aaa89/mads-todolist-2017:1.0 /bin/bash -c "sbt test"
