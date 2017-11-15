@@ -6,6 +6,12 @@ services:
   - docker
   - mysql
 
+# safelist
+branches:
+  only:
+    - master
+    - production
+
 test:
   adapter: mysql2
   database: mads
