@@ -86,7 +86,7 @@ public class TareaServiceTest {
    public void modificacionTarea(){
      TareaService tareaService = newTareaService();
      long idTarea = 1000L;
-     tareaService.modificaTarea(idTarea,"Pagar el alquiler");
+     tareaService.modificaTarea(idTarea,"Pag el alquiler");
      Tarea tarea = tareaService.obtenerTarea(idTarea);
      assertEquals("Pagar el alquiler",tarea.getTitulo());
    }
