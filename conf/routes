@@ -35,5 +35,6 @@ GET     /usuarios/:id/tableros                      controllers.GestionTablerosC
 GET     /usuarios/:id/entrarTablero/:idTablero      controllers.GestionTablerosController.añadirParticipante(id: Long,idTablero: Long)
 GET     /usuarios/:id/tablero/:idTablero            controllers.GestionTablerosController.mostrarDetalleTablero(id: Long, idTablero: Long)
 
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
