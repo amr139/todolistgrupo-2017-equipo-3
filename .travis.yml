@@ -19,6 +19,7 @@ test:
   encoding: utf8
 
 before_install:
+   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
    - docker build -t aaa89/mads-todolist-2017:$TRAVIS_BUILD_NUMBER .
    - docker push aaa89/mads-todolist-2017:$TRAVIS_BUILD_NUMBER
    - docker tag aaa89/mads-todolist-2017:$TRAVIS_BUILD_NUMBER aaa89/mads-todolist-2017:latest
