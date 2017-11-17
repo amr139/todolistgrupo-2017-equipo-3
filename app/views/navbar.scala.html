@@ -1,5 +1,4 @@
-@(title: String)
-@if(title != "Registro usuario"){
+@(idUsuario: Long)(implicit request: play.api.mvc.RequestHeader)
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -16,26 +15,25 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Mis Tareas</a></li>
+        <li class="active"><a href="/usuarios/@idUsuario/tareas">Mis Tareas</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tableros <b class="caret"></b></a>
           <ul class="dropdown-menu">
-           <li><a href="#">Mis Tableros</a></li>
+           <li><a href="/usuarios/@idUsuario/tableros">Mis Tableros</a></li>
            <li><a href="#">Otros Tableros</a></li>
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">ELUsuario <b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">@request.session.get("login")<b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Mi Perfil</a></li>
+            <li><a href="/usuarios/@idUsuario">Mi Perfil</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Cerrar Sesión</a></li>
+            <li><a href="@routes.UsuarioController.logout()">Cerrar Sesión</a></li>
           </ul>
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-}

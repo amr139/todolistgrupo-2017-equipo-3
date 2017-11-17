@@ -1,6 +1,6 @@
 @(usuario: Usuario)
 
-@main("Detalle de usuario") {
+@main(usuario.getId(),"Detalle de usuario") {
 
    <h1>Perfil del usuario @usuario.getId()</h1>
       <ul>
