@@ -19,10 +19,10 @@ test:
   encoding: utf8
 
 before_install:
-   - docker build -t aaa89/mads-todolist-2017:$TRAVIS_BUILD_NUMBER;
-   - docker push aaa89/mads-todolist-2017:$TRAVIS_BUILD_NUMBER;
-   - docker tag aaa89/mads-todolist-2017:$TRAVIS_BUILD_NUMBER aaa89/mads-todolist-2017:latest;
-   - docker push aaa89/mads-todolist-2017:latest;
+   - docker build -t aaa89/mads-todolist-2017:$TRAVIS_BUILD_NUMBER .
+   - docker push aaa89/mads-todolist-2017:$TRAVIS_BUILD_NUMBER
+   - docker tag aaa89/mads-todolist-2017:$TRAVIS_BUILD_NUMBER aaa89/mads-todolist-2017:latest
+   - docker push aaa89/mads-todolist-2017:latest
    - docker run -d --rm -p 3306:3306 --name play-mysql -e MYSQL_ROOT_PASSWORD=mads -e MYSQL_DATABASE=mads mysql
 
 script:
