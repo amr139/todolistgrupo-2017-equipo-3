@@ -1,5 +1,5 @@
 @(idUsuario: Long, idTarea: Long, titulo: String, mensaje: String)
-@main("Modificar Tarea") {
+@main(idUsuario,"Modificar Tarea") {
    @if(mensaje != "") {
       <div class="alert alert-danger">
          @mensaje

@@ -1,5 +1,5 @@
 @(idUsuario: Long, uLogin: String, uEmail: String, uNombre: String, uApellidos: String, uFecha: String, mensaje: String)
-@main("Modificar Perfil") {
+@main(idUsuario,"Modificar Perfil") {
    @if(mensaje != "") {
       <div class="alert alert-danger">
          @mensaje

@@ -1,6 +1,6 @@
 @(tablero: Tablero, usuarios: List[Usuario], idUsuario: Long)
 
-@main("Detalle del Tablero") {
+@main(idUsuario,"Detalle del Tablero") {
 
    <h1>Detalle del tablero @tablero.getId()</h1>
       <ul>

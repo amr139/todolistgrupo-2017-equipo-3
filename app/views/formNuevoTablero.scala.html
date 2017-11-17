@@ -1,5 +1,5 @@
 @(usuario: Usuario, tableroForm: Form[Tablero], mensaje: String)
-@main("Nueva tablero") {
+@main(usuario.getId(),"Nueva tablero") {
     @if(mensaje != "") {
         <div class="alert alert-danger">
             @mensaje
