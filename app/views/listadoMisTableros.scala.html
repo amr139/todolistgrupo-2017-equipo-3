@@ -1,0 +1,50 @@
+@(tablerosAdmin: List[Tablero], tablerosParticipa: List[Tablero],usuario: Usuario, mensaje: String)
+
+@main(usuario.getId(),"Tableros disponibles para el usuario @usuario.getLogin()") {
+
+    @if(mensaje != null) {
+        <div class="alert alert-success">
+            @mensaje
+        </div>
+    }
+
+    <h3> Listado de tableros ADMINISTRADOS por @usuario.getLogin()</h3>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Tableros</th>
+            <th>Acción</th>
+        </tr>
+        @for(tablero <- tablerosAdmin) {
+            <tr>
+                <td>@tablero.getNombre()</td>
+                <td><a href="@routes.GestionTablerosController.mostrarDetalleTablero(usuario.getId(),tablero.getId())">
+                    <span class="glyphicon glyphicon-eye-open"></span>Ver detalles</a></td>
+                </tr>
+            }
+            <tr>
+                <td><a href="@routes.GestionTablerosController.formularioNuevoTablero(usuario.getId())">
+                    <span class="glyphicon glyphicon-plus"/></span>Crear Tablero</a></td>
+                    <td></td>
+                </tr>
+            </table>
+            <br>
+            <h3> Listado de tableros en los que participa @usuario.getLogin()</h3>
+
+            <table class="table table-striped">
+                <tr>
+                    <th>Tableros</th>
+                    <th>Acción</th>
+                </tr>
+                @for(tablero <- tablerosParticipa) {
+                    <tr>
+                        <td>@tablero.getNombre()</td>
+                        <td><a href="@routes.GestionTablerosController.mostrarDetalleTablero(usuario.getId(),tablero.getId())">
+                            <span class="glyphicon glyphicon-eye-open"></span>Ver detalles</a>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+        }
