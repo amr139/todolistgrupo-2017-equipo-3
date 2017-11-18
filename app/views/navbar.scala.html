@@ -19,8 +19,8 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tableros <b class="caret"></b></a>
           <ul class="dropdown-menu">
-           <li><a href="/usuarios/@idUsuario/tableros">Mis Tableros</a></li>
-           <li><a href="#">Otros Tableros</a></li>
+           <li><a href="/usuarios/@idUsuario/mistableros">Mis Tableros</a></li>
+           <li><a href="/usuarios/@idUsuario/otrostableros">Otros Tableros</a></li>
           </ul>
         </li>
       </ul>
@@ -29,7 +29,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">@request.session.get("login")<b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="/usuarios/@idUsuario">Mi Perfil</a></li>
-            <li><a href="@routes.UsuarioController.formularioEditarPerfil(idUsuario)">Mi Perfil</a></li>
+            <li><a href="@routes.UsuarioController.formularioEditarPerfil(idUsuario)">Editar Perfil</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="@routes.UsuarioController.logout()">Cerrar Sesión</a></li>
           </ul>
