@@ -40,7 +40,7 @@ public class GestionTareasController extends Controller {
    }
 
    @Security.Authenticated(ActionAuthenticator.class)
-   public Result creaNuevaTarea(Long idUsuario) {
+   public Result creaNuevaTarea(Long idUsuario){
       String connectedUserStr = session("connected");
       Long connectedUser =  Long.valueOf(connectedUserStr);
       if (connectedUser != idUsuario) {
@@ -51,9 +51,20 @@ public class GestionTareasController extends Controller {
             Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
             return badRequest(formNuevaTarea.render(usuario, formFactory.form(Tarea.class), "Hay errores en el formulario"));
          }
-         Tarea tarea = tareaForm.get();
-         tareaService.nuevaTarea(idUsuario, tarea.getTitulo(), tarea.getFechaLimite());
+
+         DynamicForm requestData = formFactory.form().bindFromRequest();
+         String nuevoTitulo = requestData.get("titulo");
+         try{
+           String inputFechaLimite = requestData.get("fecha");
+
+           SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+           Date nuevaFechaLimite = formateador.parse(inputFechaLimite);
+           Tarea tarea = tareaService.nuevaTarea(idUsuario,nuevoTitulo,nuevaFechaLimite);
+         }catch(java.text.ParseException e){
+           Tarea tarea = tareaService.nuevaTarea(idUsuario,nuevoTitulo,null);
+         }
          flash("aviso","La tarea se ha grabado correctamente");
+
          return redirect(controllers.routes.GestionTareasController.listaTareas(idUsuario));
       }
     }
@@ -83,7 +94,12 @@ public class GestionTareasController extends Controller {
         if(connectedUser != tarea.getUsuario().getId()){
           return unauthorized("Lo siento, no estas autorizado");
         } else {
-          return ok(formModificacionTarea.render(tarea.getUsuario().getId(), tarea.getId(),tarea.getTitulo(),""));
+          String fechaStr = "";
+          if (tarea.getFechaLimite() != null) {
+             SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+             fechaStr = formateador.format(tarea.getFechaLimite());
+          }
+          return ok(formModificacionTarea.render(tarea.getUsuario().getId(), tarea.getId(),tarea.getTitulo(), fechaStr,""));
         }
 
       }
@@ -94,11 +110,19 @@ public class GestionTareasController extends Controller {
       DynamicForm requestData = formFactory.form().bindFromRequest();
       String nuevoTitulo = requestData.get("titulo");
       String inputFechaLimite = requestData.get("fecha");
-
-      SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
-      Date nuevaFechaLimite = formateador.parse(inputFechaLimite);
-
-      Tarea tarea = tareaService.modificaTarea(idTarea,nuevoTitulo,nuevaFechaLimite);
+      Tarea tarea;
+      try{
+        SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+        Date nuevaFechaLimite = formateador.parse(inputFechaLimite);
+        tarea = tareaService.modificaTarea(idTarea,nuevoTitulo,nuevaFechaLimite);
+      }catch(java.text.ParseException e){
+        if(inputFechaLimite == "")
+          tarea = tareaService.modificaTarea(idTarea,nuevoTitulo,null);
+        else{
+          tarea = tareaService.modificaTarea(idTarea,nuevoTitulo,null);
+          return badRequest(formModificacionTarea.render(tarea.getUsuario().getId(), tarea.getId(),tarea.getTitulo(), "", "Debe introducir un formato de fecha correcto DD-MM-YYYY"));
+        }
+      }
       return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
     }
 
