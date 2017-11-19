@@ -15,14 +15,23 @@ public class Tarea {
    @JoinColumn(name="usuarioId")
    public Usuario usuario;
 
-   public Tarea() {}
+   private boolean terminado;
+
+   public Tarea() {
+       this.terminado = false;
+   }
 
    public Tarea(Usuario usuario, String titulo) {
       this.usuario = usuario;
       this.titulo = titulo;
+      this.terminado = false;
    }
 
    // Getters y setters necesarios para JPA
+
+    public boolean getTerminado(){
+        return this.terminado;
+    }
 
    public Long getId() {
       return id;
