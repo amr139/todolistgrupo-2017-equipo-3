@@ -144,4 +144,11 @@ public class TareaTest {
      Usuario usuario = repository.findById(1000L);
      assertEquals(2,usuario.getTareas().size());
    }
+   //Test #19  test TareaTieneTerminado 
+   @Test
+   public void testTareaTieneTerminado(){
+     TareaRepository repository = newTareaRepository();
+     Tarea tarea = repository.findById(1000L);
+     assertNotNull(tarea.getTerminado());
+   }
 }

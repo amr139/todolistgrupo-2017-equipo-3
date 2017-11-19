@@ -12,6 +12,7 @@ public class Tarea {
    @GeneratedValue(strategy=GenerationType.AUTO)
    private Long id;
    private String titulo;
+   private boolean terminado;
    @Temporal(TemporalType.DATE)
    private Date fechaCreacion;
    @Temporal(TemporalType.DATE)
@@ -23,15 +24,26 @@ public class Tarea {
    @JoinColumn(name="usuarioId")
    public Usuario usuario;
 
-   public Tarea() {}
+   public Tarea() {
+   }
 
    public Tarea(Usuario usuario, String titulo, Date fechaLimite) {
       this.usuario = usuario;
       this.titulo = titulo;
+
+      this.terminado = false;
+
       this.fechaLimite = fechaLimite;
    }
 
    // Getters y setters necesarios para JPA
+
+    public boolean getTerminado(){
+        return this.terminado;
+    }
+    public void setTerminado(boolean terminado){
+        this.terminado = terminado;
+    }
 
    public Long getId() {
       return id;
