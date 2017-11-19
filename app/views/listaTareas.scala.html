@@ -31,18 +31,24 @@
                   @tarea.getFechaLimite().format("dd-MM-yyyy")
                 }
             </td>
-            <td><a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())">
+            <td>
+                <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())">
                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;
-                <a onmouseover="" style="cursor: pointer;"
-                onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
+                <a onmouseover="" style="cursor: pointer;" onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </a>
+                <a href="@routes.GestionTareasController.marcarComoTerminado(tarea.getId())">terminar</a>
+            </td>
         </tr>
       }
 
       <tr>
           <td><a href="@routes.GestionTareasController.formularioNuevaTarea(usuario.getId())">
-              <span class="glyphicon glyphicon-plus"/></a></td>
-          <td></td>
+              <span class="glyphicon glyphicon-plus"/></a>
+          </td>
+          <td>
+
+          </td>
 
       </tr>
 
