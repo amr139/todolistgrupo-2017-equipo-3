@@ -8,6 +8,7 @@ public class Tarea {
    @GeneratedValue(strategy=GenerationType.AUTO)
    private Long id;
    private String titulo;
+   private boolean terminado;
    // Relación muchos-a-uno entre tareas y usuario
    @ManyToOne
    // Nombre de la columna en la BD que guarda físicamente
@@ -15,10 +16,7 @@ public class Tarea {
    @JoinColumn(name="usuarioId")
    public Usuario usuario;
 
-   private boolean terminado;
-
    public Tarea() {
-       this.terminado = false;
    }
 
    public Tarea(Usuario usuario, String titulo) {
@@ -31,6 +29,9 @@ public class Tarea {
 
     public boolean getTerminado(){
         return this.terminado;
+    }
+    public void setTerminado(boolean terminado){
+        this.terminado = terminado;
     }
 
    public Long getId() {
