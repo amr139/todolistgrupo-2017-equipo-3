@@ -131,6 +131,15 @@ public class GestionTareasController extends Controller {
       tareaService.borraTarea(idTarea);
         flash("aviso","Tarea borrada correctamente");
         return ok();
-
+    }
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result marcarComoTerminado(Logng idTarea) {
+      if(tareaService.marcarTareaComoTerminada(idTarea)) {
+        flash("aviso","La tarea ha sido terminada con exito !!");
+        return ok();
+      }else {
+        flash("aviso","Se ha producido un error no se ha podido terminar la tarea !!");
+        return ok();
+      }
     }
  }
