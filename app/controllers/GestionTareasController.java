@@ -10,6 +10,8 @@ import play.data.DynamicForm;
 import play.Logger;
 
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import services.UsuarioService;
 import services.TareaService;
@@ -50,7 +52,7 @@ public class GestionTareasController extends Controller {
             return badRequest(formNuevaTarea.render(usuario, formFactory.form(Tarea.class), "Hay errores en el formulario"));
          }
          Tarea tarea = tareaForm.get();
-         tareaService.nuevaTarea(idUsuario, tarea.getTitulo());
+         tareaService.nuevaTarea(idUsuario, tarea.getTitulo(), tarea.getFechaLimite());
          flash("aviso","La tarea se ha grabado correctamente");
          return redirect(controllers.routes.GestionTareasController.listaTareas(idUsuario));
       }
@@ -88,10 +90,15 @@ public class GestionTareasController extends Controller {
     }
 
     @Security.Authenticated(ActionAuthenticator.class)
-    public Result grabaTareaModificada(Long idTarea) {
+    public Result grabaTareaModificada(Long idTarea) throws java.text.ParseException{
       DynamicForm requestData = formFactory.form().bindFromRequest();
       String nuevoTitulo = requestData.get("titulo");
-      Tarea tarea = tareaService.modificaTarea(idTarea,nuevoTitulo);
+      String inputFechaLimite = requestData.get("fecha");
+
+      SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+      Date nuevaFechaLimite = formateador.parse(inputFechaLimite);
+
+      Tarea tarea = tareaService.modificaTarea(idTarea,nuevoTitulo,nuevaFechaLimite);
       return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
     }
 
