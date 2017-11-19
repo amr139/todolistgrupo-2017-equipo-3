@@ -12,7 +12,10 @@ import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.*;
 import java.io.FileInputStream;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.text.ParseException;
 
 import models.Usuario;
 import models.UsuarioRepository;
@@ -77,18 +80,20 @@ public class TareaServiceTest {
    public void nuevaTareaUsuario(){
      TareaService tareaService = newTareaService();
      long idUsuario = 1000L;
-     tareaService.nuevaTarea(idUsuario,"Pagar el alquiler");
+     tareaService.nuevaTarea(idUsuario,"Pagar el alquiler", null);
      assertEquals(3, tareaService.allTareasUsuario(1000L).size());
    }
 
    //Test #22: modificacion de tareas
    @Test
-   public void modificacionTarea(){
+   public void modificacionTarea() throws ParseException{
      TareaService tareaService = newTareaService();
      long idTarea = 1000L;
-     tareaService.modificaTarea(idTarea,"Pagar el alquiler");
+     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+     tareaService.modificaTarea(idTarea,"Pagar el alquiler", sdf.parse("26-05-2018"));
      Tarea tarea = tareaService.obtenerTarea(idTarea);
      assertEquals("Pagar el alquiler",tarea.getTitulo());
+     assertTrue(tarea.getFechaLimite().compareTo(sdf.parse("26-05-2018")) == 0);
    }
 
    //Test #23: borrado tareaBD
@@ -99,5 +104,6 @@ public class TareaServiceTest {
      tareaService.borraTarea(idTarea);
      assertNull(tareaService.obtenerTarea(idTarea));
    }
+
 
 }
