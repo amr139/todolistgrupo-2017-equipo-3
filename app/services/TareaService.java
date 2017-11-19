@@ -71,7 +71,7 @@ public class TareaService {
   public boolean marcarTareaComoTerminada(Long idTarea) {
     Tarea tarea = tareaRepository.findById(idTarea);
     if (tarea == null) {
-      throw new TareaServiceException("No existe tarea"):
+      throw new TareaServiceException("No existe tarea");
     }
     try {
       tarea.setTerminado(true);
@@ -79,9 +79,7 @@ public class TareaService {
       return true;
     } catch(Exception e) {
       throw new TareaServiceException("No se ha podido actualizar la tarea: " + e.toString());
-      return false;
     }
-
   }
 
 

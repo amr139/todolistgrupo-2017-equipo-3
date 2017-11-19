@@ -133,7 +133,7 @@ public class GestionTareasController extends Controller {
         return ok();
     }
     @Security.Authenticated(ActionAuthenticator.class)
-    public Result marcarComoTerminado(Logng idTarea) {
+    public Result marcarComoTerminado(Long idTarea) {
       if(tareaService.marcarTareaComoTerminada(idTarea)) {
         flash("aviso","La tarea ha sido terminada con exito !!");
         return ok();
