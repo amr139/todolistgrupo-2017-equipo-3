@@ -1,5 +1,9 @@
 package models;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
 import javax.persistence.*;
 
 @Entity
@@ -9,6 +13,10 @@ public class Tarea {
    private Long id;
    private String titulo;
    private boolean terminado;
+   @Temporal(TemporalType.DATE)
+   private Date fechaCreacion;
+   @Temporal(TemporalType.DATE)
+   private Date fechaLimite;
    // Relación muchos-a-uno entre tareas y usuario
    @ManyToOne
    // Nombre de la columna en la BD que guarda físicamente
@@ -19,10 +27,13 @@ public class Tarea {
    public Tarea() {
    }
 
-   public Tarea(Usuario usuario, String titulo) {
+   public Tarea(Usuario usuario, String titulo, Date fechaLimite) {
       this.usuario = usuario;
       this.titulo = titulo;
+
       this.terminado = false;
+
+      this.fechaLimite = fechaLimite;
    }
 
    // Getters y setters necesarios para JPA
@@ -58,9 +69,25 @@ public class Tarea {
       this.usuario = usuario;
    }
 
+   public Date getFechaCreacion(){
+     return fechaCreacion;
+   }
+
+   public void setFechaCreacion(Date fechaCreacion){
+     this.fechaCreacion = fechaCreacion;
+   }
+
+   public Date getFechaLimite(){
+     return fechaLimite;
+   }
+
+   public void setFechaLimite(Date fechaLimite){
+     this.fechaLimite = fechaLimite;
+   }
+
    public String toString() {
-      return String.format("Tarea id: %s titulo: %s usuario: %s",
-                      id, titulo, usuario.toString());
+      return String.format("Tarea id: %s titulo: %s fechaLimite: %s usuario: %s",
+                      id, titulo, fechaLimite, usuario.toString());
    }
 
    @Override

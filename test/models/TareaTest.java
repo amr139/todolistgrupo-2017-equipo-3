@@ -15,7 +15,10 @@ import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.*;
 import java.io.FileInputStream;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.text.ParseException;
 
 import models.Usuario;
 import models.Tarea;
@@ -66,7 +69,7 @@ public class TareaTest {
    @Test
    public void testCrearTarea() {
       Usuario usuario = new Usuario("juangutierrez", "juangutierrez@gmail.com");
-      Tarea tarea = new Tarea(usuario, "Práctica 1 de MADS");
+      Tarea tarea = new Tarea(usuario, "Práctica 1 de MADS", null);
 
       assertEquals("juangutierrez", tarea.getUsuario().getLogin());
       assertEquals("juangutierrez@gmail.com", tarea.getUsuario().getEmail());
@@ -77,9 +80,9 @@ public class TareaTest {
    @Test
    public void testEqualsTareasConId() {
       Usuario usuario = new Usuario("juangutierrez", "juangutierrez@gmail.com");
-      Tarea tarea1 = new Tarea(usuario, "Práctica 1 de MADS");
-      Tarea tarea2 = new Tarea(usuario, "Renovar DNI");
-      Tarea tarea3 = new Tarea(usuario, "Pagar el alquiler");
+      Tarea tarea1 = new Tarea(usuario, "Práctica 1 de MADS", null);
+      Tarea tarea2 = new Tarea(usuario, "Renovar DNI", null);
+      Tarea tarea3 = new Tarea(usuario, "Pagar el alquiler", null);
       tarea1.setId(1000L);
       tarea2.setId(1000L);
       tarea3.setId(2L);
@@ -91,9 +94,9 @@ public class TareaTest {
    @Test
    public void testEqualsTareasSinId() {
       Usuario usuario = new Usuario("juangutierrez", "juangutierrez@gmail.com");
-      Tarea tarea1 = new Tarea(usuario, "Renovar DNI");
-      Tarea tarea2 = new Tarea(usuario, "Renovar DNI");
-      Tarea tarea3 = new Tarea(usuario, "Pagar el alquiler");
+      Tarea tarea1 = new Tarea(usuario, "Renovar DNI", null);
+      Tarea tarea2 = new Tarea(usuario, "Renovar DNI", null);
+      Tarea tarea3 = new Tarea(usuario, "Pagar el alquiler", null);
       assertEquals(tarea1, tarea2);
       assertNotEquals(tarea1, tarea3);
    }
@@ -106,7 +109,7 @@ public class TareaTest {
      TareaRepository tareaRepository = newTareaRepository();
      Usuario usuario = new Usuario("juangutierrez","juangutierrez@gmail.com");
      usuario = usuarioRepository.add(usuario);
-     Tarea tarea = new Tarea(usuario,"Renovar DNI");
+     Tarea tarea = new Tarea(usuario,"Renovar DNI", null);
      tarea = tareaRepository.add(tarea);
      Logger.info("Numero de tarea: " + Long.toString(tarea.getId()));
      assertNotNull(tarea.getId());

@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 import models.Usuario;
 import models.UsuarioRepository;
@@ -36,12 +37,12 @@ public class TareaService {
     return tareas;
   }
 
-  public Tarea nuevaTarea(Long idUsuario,String titulo){
+  public Tarea nuevaTarea(Long idUsuario,String titulo, Date fLimite){
     Usuario usuario = usuarioRepository.findById(idUsuario);
     if(usuario == null){
       throw new TareaServiceException("Usuario no existente");
     }
-    Tarea tarea = new Tarea(usuario, titulo);
+    Tarea tarea = new Tarea(usuario, titulo, fLimite);
     return tareaRepository.add(tarea);
   }
 
@@ -49,12 +50,13 @@ public class TareaService {
     return tareaRepository.findById(idTarea);
   }
 
-  public Tarea modificaTarea(Long idTarea, String nuevoTitulo){
+  public Tarea modificaTarea(Long idTarea, String nuevoTitulo, Date nuevaFechaLimite){
     Tarea tarea = tareaRepository.findById(idTarea);
     if(tarea == null){
       throw new TareaServiceException("No existe tarea");
     }
     tarea.setTitulo(nuevoTitulo);
+    tarea.setFechaLimite(nuevaFechaLimite);
     tarea = tareaRepository.update(tarea);
     return tarea;
   }
