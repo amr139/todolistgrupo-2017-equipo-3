@@ -1,4 +1,4 @@
-@(idUsuario: Long, idTarea: Long, titulo: String, mensaje: String)
+@(idUsuario: Long, idTarea: Long, titulo: String, fecha: String, mensaje: String)
 @main(idUsuario,"Modificar Tarea") {
    @if(mensaje != "") {
       <div class="alert alert-danger">
@@ -9,7 +9,8 @@
    @helper.form(action = routes.GestionTareasController.grabaTareaModificada(idTarea)) {
       <fieldset>
          <legend>Tarea</legend>
-         Título:  <input type="text" size=70 name="titulo" value= "@titulo">
+         Título:  <input type="text" size=70 name="titulo" value= "@titulo"><br>
+         Fecha Límite: <input type="text" size=70 name="fecha" value= "@fecha" placeholder="dd-MM-yyyy"><br>
       </fieldset>
       <p/>
       <p>
