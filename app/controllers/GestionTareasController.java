@@ -10,6 +10,8 @@ import play.data.DynamicForm;
 import play.Logger;
 
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import services.UsuarioService;
 import services.TareaService;
@@ -38,7 +40,7 @@ public class GestionTareasController extends Controller {
    }
 
    @Security.Authenticated(ActionAuthenticator.class)
-   public Result creaNuevaTarea(Long idUsuario) {
+   public Result creaNuevaTarea(Long idUsuario){
       String connectedUserStr = session("connected");
       Long connectedUser =  Long.valueOf(connectedUserStr);
       if (connectedUser != idUsuario) {
@@ -49,9 +51,20 @@ public class GestionTareasController extends Controller {
             Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
             return badRequest(formNuevaTarea.render(usuario, formFactory.form(Tarea.class), "Hay errores en el formulario"));
          }
-         Tarea tarea = tareaForm.get();
-         tareaService.nuevaTarea(idUsuario, tarea.getTitulo());
+
+         DynamicForm requestData = formFactory.form().bindFromRequest();
+         String nuevoTitulo = requestData.get("titulo");
+         try{
+           String inputFechaLimite = requestData.get("fecha");
+
+           SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+           Date nuevaFechaLimite = formateador.parse(inputFechaLimite);
+           Tarea tarea = tareaService.nuevaTarea(idUsuario,nuevoTitulo,nuevaFechaLimite);
+         }catch(java.text.ParseException e){
+           Tarea tarea = tareaService.nuevaTarea(idUsuario,nuevoTitulo,null);
+         }
          flash("aviso","La tarea se ha grabado correctamente");
+
          return redirect(controllers.routes.GestionTareasController.listaTareas(idUsuario));
       }
     }
@@ -69,6 +82,19 @@ public class GestionTareasController extends Controller {
         return ok(listaTareas.render(tareas, usuario, aviso));
       }
     }
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result listaTareasTerminadas(Long idUsuario) {
+      String connectedUserStr = session("connected");
+      Long connectedUser = Long.valueOf(connectedUserStr);
+      if(connectedUser != idUsuario) {
+        return unauthorized("Lo siento, no estas autorizado");
+      } else {
+        String aviso = flash("aviso");
+        Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
+        List<Tarea> tareas = tareaService.allTareasUsuario(idUsuario);
+        return ok(listaTareasTerminadas.render(tareas, usuario, aviso));
+      }
+    }
 
     @Security.Authenticated(ActionAuthenticator.class)
     public Result formularioEditaTarea(Long idTarea){
@@ -81,17 +107,35 @@ public class GestionTareasController extends Controller {
         if(connectedUser != tarea.getUsuario().getId()){
           return unauthorized("Lo siento, no estas autorizado");
         } else {
-          return ok(formModificacionTarea.render(tarea.getUsuario().getId(), tarea.getId(),tarea.getTitulo(),""));
+          String fechaStr = "";
+          if (tarea.getFechaLimite() != null) {
+             SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+             fechaStr = formateador.format(tarea.getFechaLimite());
+          }
+          return ok(formModificacionTarea.render(tarea.getUsuario().getId(), tarea.getId(),tarea.getTitulo(), fechaStr,""));
         }
 
       }
     }
 
     @Security.Authenticated(ActionAuthenticator.class)
-    public Result grabaTareaModificada(Long idTarea) {
+    public Result grabaTareaModificada(Long idTarea) throws java.text.ParseException{
       DynamicForm requestData = formFactory.form().bindFromRequest();
       String nuevoTitulo = requestData.get("titulo");
-      Tarea tarea = tareaService.modificaTarea(idTarea,nuevoTitulo);
+      String inputFechaLimite = requestData.get("fecha");
+      Tarea tarea;
+      try{
+        SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+        Date nuevaFechaLimite = formateador.parse(inputFechaLimite);
+        tarea = tareaService.modificaTarea(idTarea,nuevoTitulo,nuevaFechaLimite);
+      }catch(java.text.ParseException e){
+        if(inputFechaLimite == "")
+          tarea = tareaService.modificaTarea(idTarea,nuevoTitulo,null);
+        else{
+          tarea = tareaService.modificaTarea(idTarea,nuevoTitulo,null);
+          return badRequest(formModificacionTarea.render(tarea.getUsuario().getId(), tarea.getId(),tarea.getTitulo(), "", "Debe introducir un formato de fecha correcto DD-MM-YYYY"));
+        }
+      }
       return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
     }
 
@@ -100,6 +144,16 @@ public class GestionTareasController extends Controller {
       tareaService.borraTarea(idTarea);
         flash("aviso","Tarea borrada correctamente");
         return ok();
-
+    }
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result marcarComoTerminado(Long idTarea) {
+      Tarea tarea = tareaService.obtenerTarea(idTarea);
+      if(tareaService.marcarTareaComoTerminada(idTarea).getTerminado()) {
+        flash("aviso","La tarea ha sido terminada con exito !!");
+        return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
+      }else {
+        flash("aviso","Se ha producido un error no se ha podido terminar la tarea !!");
+        return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
+      }
     }
  }

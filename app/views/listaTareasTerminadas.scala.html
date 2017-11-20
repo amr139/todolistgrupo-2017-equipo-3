@@ -24,7 +24,7 @@
             <th>Acción</th>
         </tr>
     @for(tarea <- tareas) {
-        @if(tarea.getTerminado() == false) {
+        @if(tarea.getTerminado() == true) {
         <tr>
             <td>@tarea.getTitulo()</td>
             <td>
