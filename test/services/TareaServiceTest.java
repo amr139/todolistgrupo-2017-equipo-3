@@ -109,8 +109,8 @@ public class TareaServiceTest {
    public void marcarTareaComoTerminada() {
      TareaService tareaService = newTareaService();
      long idTarea = 1000L;
-     boolean res = tareaService.marcarTareaComoTerminada(idTarea);
-     assertTrue(res);
+     Tarea res = tareaService.marcarTareaComoTerminada(idTarea);
+     assertTrue(res.getTerminado());
    }
 
 

@@ -134,12 +134,13 @@ public class GestionTareasController extends Controller {
     }
     @Security.Authenticated(ActionAuthenticator.class)
     public Result marcarComoTerminado(Long idTarea) {
-      if(tareaService.marcarTareaComoTerminada(idTarea)) {
+      Tarea tarea = tareaService.obtenerTarea(idTarea);
+      if(tareaService.marcarTareaComoTerminada(idTarea).getTerminado()) {
         flash("aviso","La tarea ha sido terminada con exito !!");
-        return ok();
+        return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
       }else {
         flash("aviso","Se ha producido un error no se ha podido terminar la tarea !!");
-        return ok();
+        return redirect(controllers.routes.GestionTareasController.listaTareas(tarea.getUsuario().getId()));
       }
     }
  }
