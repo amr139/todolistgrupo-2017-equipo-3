@@ -149,6 +149,6 @@ public class TareaTest {
    public void testTareaTieneTerminado(){
      TareaRepository repository = newTareaRepository();
      Tarea tarea = repository.findById(1000L);
-     assertNotNull(tarea.getTerminado());
+     assertFalse(tarea.getTerminado());
    }
 }

@@ -68,18 +68,20 @@ public class TareaService {
     tareaRepository.delete(idTarea);
   }
 
-  public boolean marcarTareaComoTerminada(Long idTarea) {
+  public Tarea marcarTareaComoTerminada(Long idTarea) {
     Tarea tarea = tareaRepository.findById(idTarea);
     if (tarea == null) {
       throw new TareaServiceException("No existe tarea");
     }
-    try {
-      tarea.setTerminado(true);
-      tarea = tareaRepository.update(tarea);
-      return true;
-    } catch(Exception e) {
-      throw new TareaServiceException("No se ha podido actualizar la tarea: " + e.toString());
-    }
+    tarea.setTerminado(true);
+    System.out.println();
+    System.out.println("Esoty en el servicio de Tarea "+tarea.getTerminado());
+    System.out.println();
+    tarea = tareaRepository.update(tarea);
+    System.out.println();
+    System.out.println("Esoty en el servicio de Tarea "+tarea.getTerminado());
+    System.out.println();
+    return tarea;
   }
 
 

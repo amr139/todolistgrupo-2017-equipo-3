@@ -25,15 +25,14 @@ public class Tarea {
    public Usuario usuario;
 
    public Tarea() {
+     this.terminado = false;
    }
 
    public Tarea(Usuario usuario, String titulo, Date fechaLimite) {
       this.usuario = usuario;
       this.titulo = titulo;
-
-      this.terminado = false;
-
       this.fechaLimite = fechaLimite;
+      this.terminado = false;
    }
 
    // Getters y setters necesarios para JPA

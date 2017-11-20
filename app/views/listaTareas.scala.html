@@ -24,6 +24,7 @@
             <th>Acción</th>
         </tr>
     @for(tarea <- tareas) {
+        @if(tarea.getTerminado() == false) {
         <tr>
             <td>@tarea.getTitulo()</td>
             <td>
@@ -38,10 +39,11 @@
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </a>
                 <a href="@routes.GestionTareasController.marcarComoTerminado(tarea.getId())">terminar</a>
+                @tarea.getTerminado()
             </td>
         </tr>
       }
-
+    }
       <tr>
           <td><a href="@routes.GestionTareasController.formularioNuevaTarea(usuario.getId())">
               <span class="glyphicon glyphicon-plus"/></a>
