@@ -1,12 +1,13 @@
+import org.junit.*;
+import static org.junit.Assert.*;
+
+import play.db.Database;
+import play.db.Databases;
 import play.db.jpa.*;
 
 import play.Logger;
 
 import java.sql.*;
-
-import play.db.Database;
-import play.db.Databases;
-import play.db.jpa.*;
 
 import org.dbunit.*;
 import org.dbunit.dataset.*;
@@ -73,6 +74,7 @@ public class ColumnaTest {
       Usuario usuario = new Usuario("juangutierrez", "juangutierrez@gmail.com");
       Tablero tablero = new Tablero(usuario,"Tablero test");
       Columna columna = new Columna(tablero, "Primera Columna");
+      assertEquals("Primera Columna",columna.getNombre());
       assertEquals("Tablero test", columna.getTablero().getNombre());
    }
 
