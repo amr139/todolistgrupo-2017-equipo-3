@@ -67,6 +67,14 @@ public class ColumnaTest {
   private ColumnaRepository newColumnaRepository() {
       return injector.instanceOf(ColumnaRepository.class);
   }
+  private TableroRepository newTableroRepository()
+  {
+      return injector.instanceOf(TableroRepository.class);
+  }
+  private UsuarioRepository newUsuarioRepository() 
+  {
+      return injector.instanceOf(UsuarioRepository.class);
+  }
 
    // Test #45 test creaColumna
    @Test
@@ -76,6 +84,27 @@ public class ColumnaTest {
       Columna columna = new Columna(tablero, "Primera Columna");
       assertEquals("Primera Columna",columna.getNombre());
       assertEquals("Tablero test", columna.getTablero().getNombre());
+   }
+
+   //Test #46: testAddColumnaJPARepositoryInsertsColumnaDatabase
+   @Test
+   public void testAddColumnaJPARepositoryInsertsColumnaDatabase(){
+     assertNotNull(injector);
+     UsuarioRepository usuarioRepository = newUsuarioRepository();
+     TableroRepository tableroRepository = newTableroRepository();
+     ColumnaRepository columnaRepository = newColumnaRepository();
+
+     Usuario usuario = new Usuario("juangutierrez","juangutierrez@gmail.com");
+     usuario = usuarioRepository.add(usuario);
+     Tablero tablero = new Tablero(usuario,"Mi tablero favorito");
+     tablero = tableroRepository.add(tablero);
+     Columna columna = new Columna(tablero,"Pendiente");
+     columna = columnaRepository.add(columna);
+
+     assertNotNull(columna.getId());
+     assertEquals("Pendiente",columna.getNombre());
+     assertEquals("Mi tablero favorito",columna.getTablero().getNombre());
+     assertEquals("juangutierrez",columna.getTablero().getAdministrador().getNombre());
    }
 
 }
