@@ -4,6 +4,10 @@ import play.Logger;
 
 import java.sql.*;
 
+import play.db.Database;
+import play.db.Databases;
+import play.db.jpa.*;
+
 import org.dbunit.*;
 import org.dbunit.dataset.*;
 import org.dbunit.dataset.xml.*;
@@ -22,10 +26,15 @@ import play.Environment;
 
 import models.Usuario;
 import models.Tarea;
+import models.Tablero;
 import models.UsuarioRepository;
 import models.JPAUsuarioRepository;
 import models.TareaRepository;
 import models.JPATareaRepository;
+
+import models.Columna;
+import models.ColumnaRepository;
+import models.JPAColumnaRepository;
 
 public class ColumnaTest {
     static Database db;
@@ -57,8 +66,10 @@ public class ColumnaTest {
    // Test #45 test creaColumna
    @Test
    public void testCrearColumna() {
+      Usuario usuario = new Usuario("juangutierrez", "juangutierrez@gmail.com");
+      Tablero tablero = new Tablero(usuario,"Tablero test");
       Columna columna = new Columna(tablero, "Primera Columna");
-      
+      assertEquals("Tablero test", columna.getTablero().getNombre());
    }
 
 }
