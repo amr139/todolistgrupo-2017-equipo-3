@@ -25,12 +25,16 @@ import play.inject.guice.GuiceInjectorBuilder;
 import play.Environment;
 
 import models.Usuario;
-import models.Tarea;
-import models.Tablero;
 import models.UsuarioRepository;
 import models.JPAUsuarioRepository;
+
+import models.Tarea;
 import models.TareaRepository;
 import models.JPATareaRepository;
+
+import models.Tablero;
+import models.TableroRepository;
+import models.JPATableroRepository;
 
 import models.Columna;
 import models.ColumnaRepository;
