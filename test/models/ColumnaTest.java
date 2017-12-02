@@ -110,7 +110,7 @@ public class ColumnaTest {
     @Test
     public void testFindColumnaById(){
       ColumnaRepository repository = newColumnaRepository();
-      Columna columna = repository.findById(1003);
+      Columna columna = repository.findById(1003L);
       assertEquals("TODO",columna.getNombre());
     }
 
