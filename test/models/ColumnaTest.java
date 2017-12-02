@@ -127,7 +127,7 @@ public class ColumnaTest {
     // Test #49 testDeleteColumnaJPARepository
     @Test
     public void testDeleteColumnaJPARepository() {
-      ColumnaRepository repository = newColumnaReposotory();
+      ColumnaRepository repository = newColumnaRepository();
       Columna columna = repository.findById(1003L);
       repository.delete(columna);
       assertNull(repository.findById(1003L));
