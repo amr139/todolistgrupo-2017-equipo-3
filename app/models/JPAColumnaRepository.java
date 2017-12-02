@@ -25,4 +25,9 @@ public class JPAColumnaRepository implements ColumnaRepository {
         return columna;
         });
     }
+    public Columna findById(Long id) {
+        return jpaApi.withTransaction(entityManager -> {
+            return entityManager.find(Columna.class, id);
+         });
+    }
 }
