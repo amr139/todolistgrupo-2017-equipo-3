@@ -86,9 +86,9 @@ public class ColumnaTest {
       assertEquals("Tablero test", columna.getTablero().getNombre());
    }
 
-   //Test #46: testAddColumnaJPARepositoryInsertsColumnaDatabase
+   // Test #46: testAddColumnaJPARepositoryInsertsColumnaDatabase
    @Test
-   public void testAddColumnaJPARepositoryInsertsColumnaDatabase(){
+   public void testAddColumnaJPARepositoryInsertsColumnaDatabase() {
      assertNotNull(injector);
      UsuarioRepository usuarioRepository = newUsuarioRepository();
      TableroRepository tableroRepository = newTableroRepository();
@@ -106,15 +106,15 @@ public class ColumnaTest {
      assertEquals("Mi tablero favorito",columna.getTablero().getNombre());
    }
 
-    //Test #47 testFindColumnaById()
+    // Test #47 testFindColumnaById()
     @Test
-    public void testFindColumnaById(){
+    public void testFindColumnaById() {
       ColumnaRepository repository = newColumnaRepository();
       Columna columna = repository.findById(1003L);
       assertEquals("TODO",columna.getNombre());
     }
 
-    //Test #48 testUpadateColumnaJPARepository
+    // Test #48 testUpadateColumnaJPARepository
     @Test
     public void testUpadateColumnaJPARepository() {
       ColumnaRepository repository = newColumnaRepository();
@@ -122,6 +122,15 @@ public class ColumnaTest {
       columna.setNombre("TODO-updated");
       columna = repository.update(columna);
       assertEquals("TODO-updated",columna.getNombre());
+    }
+
+    // Test #49 testDeleteColumnaJPARepository
+    @Test
+    public void testDeleteColumnaJPARepository() {
+      ColumnaRepository repository = newColumnaReposotory();
+      Columna columna = repository.findById(1003L);
+      repository.delete(columna);
+      assertNull(repository.findById(1003L));
     }
 
 }
