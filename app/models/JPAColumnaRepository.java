@@ -33,8 +33,8 @@ public class JPAColumnaRepository implements ColumnaRepository {
     public Columna update(Columna columna) {
         return jpaApi.withTransaction(entityManager -> {
             Columna columnaBD = entityManager.find(Columna.class,columna.getId());
-            columnaBD.setNombre(usuario.getNombre());
-            columnaBD.setTablero(usuario.getTablero());
+            columnaBD.setNombre(columna.getNombre());
+            columnaBD.setTablero(columna.getTablero());
             return columnaBD;
         });
     }
