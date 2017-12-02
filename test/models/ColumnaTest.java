@@ -106,4 +106,12 @@ public class ColumnaTest {
      assertEquals("Mi tablero favorito",columna.getTablero().getNombre());
    }
 
+    //Test #47 testFindColumnaById()
+    @Test
+    public void testFindColumnaById(){
+      ColumnaRepository repository = newColumnaRepository();
+      Columna columna = repository.findById(1003);
+      assertEquals("TODO",columna.getNombre());
+    }
+
 }
