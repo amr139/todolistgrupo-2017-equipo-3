@@ -114,4 +114,14 @@ public class ColumnaTest {
       assertEquals("TODO",columna.getNombre());
     }
 
+    //Test #48 testUpadateColumnaJPARepository
+    @Test
+    public void testUpadateColumnaJPARepository() {
+      ColumnaRepository repository = newColumnaRepository();
+      Columna columna = repository.findById(1003L);
+      columna.setNombre("TODO-updated");
+      columna = repository.update(columna);
+      assertEquals("TODO-updated",columna.getNombre());
+    }
+
 }
