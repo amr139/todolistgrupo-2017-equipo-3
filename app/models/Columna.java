@@ -11,7 +11,7 @@ public class Columna {
     Long id;
     private String nombre;
     @ManyToOne
-    @JoinColumn(name="tablero")
+    @JoinColumn(name="tableroId")
     private Tablero tablero;
 
     public Columna() {}
@@ -26,5 +26,8 @@ public class Columna {
     }
     public String getNombre() {
         return this.nombre;
+    }
+    public Long getId() {
+        return this.id;
     }
 }

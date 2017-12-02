@@ -9,6 +9,7 @@
          
     <Tablero id="1000" nombre="Tablero test 1" administradorId="1000"/>
     <Tablero id="1001" nombre="Tablero test 2" administradorId="1000"/>
+    <Columna id="1003" nombre="TODO" tableroId="1000"/>
     <Tarea id="1000" titulo="Renovar DNI" usuarioId="1000" terminado="false"/>
     <Tarea id="1001" titulo="Práctica 1 MADS" usuarioId="1000" terminado="false"/>
     <Persona_Tablero tableros_id="1000" participantes_id="1001"/>

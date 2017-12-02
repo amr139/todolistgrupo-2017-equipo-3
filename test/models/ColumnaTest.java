@@ -79,7 +79,7 @@ public class ColumnaTest {
    // Test #45 test creaColumna
    @Test
    public void testCrearColumna() {
-      Usuario usuario = new Usuario("juangutierrez", "juangutierrez@gmail.com");
+      Usuario usuario = new Usuario("vk", "juangutierrez@gmail.com");
       Tablero tablero = new Tablero(usuario,"Tablero test");
       Columna columna = new Columna(tablero, "Primera Columna");
       assertEquals("Primera Columna",columna.getNombre());
