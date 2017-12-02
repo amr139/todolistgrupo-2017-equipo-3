@@ -30,4 +30,10 @@ public class Columna {
     public Long getId() {
         return this.id;
     }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public void setTablero(Tablero tablero) {
+        this.tablero = tablero;
+    }
 }
