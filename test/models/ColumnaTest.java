@@ -104,7 +104,6 @@ public class ColumnaTest {
      assertNotNull(columna.getId());
      assertEquals("Pendiente",columna.getNombre());
      assertEquals("Mi tablero favorito",columna.getTablero().getNombre());
-     assertEquals("juangutierrez",columna.getTablero().getAdministrador().getNombre());
    }
 
 }
