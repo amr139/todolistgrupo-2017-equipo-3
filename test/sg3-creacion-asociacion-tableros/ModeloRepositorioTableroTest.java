@@ -15,6 +15,7 @@ import java.sql.*;
 
 import java.util.Set;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.dbunit.*;
 import org.dbunit.dataset.*;
@@ -186,8 +187,8 @@ public class ModeloRepositorioTableroTest {
      Columna columna1 = columnaRepository.findById(1004L);
 
      List<Columna> tableroList = new ArrayList<Columna>(tablero.getColumnas());
-     assertEquals(true,tableroList.get(0).equals(columan) || tableroList.get(0).equals(columan1));
-     assertEquals(true,tableroList.get(0).equals(columan) || tableroList.get(0).equals(columan1));
+     assertEquals(true,tableroList.get(0).equals(columna) || tableroList.get(0).equals(columna1));
+     assertEquals(true,tableroList.get(0).equals(columna) || tableroList.get(0).equals(columna1));
    }
 
 }
