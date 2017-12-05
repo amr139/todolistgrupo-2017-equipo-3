@@ -183,8 +183,8 @@ public class ModeloRepositorioTableroTest {
      Tablero tablero = tableroRepository.findById(1000L);
      Columna columna = columnaRepository.findById(1003L);
      Columna columna1 = columnaRepository.findById(1004L);
-     assertEquals(tablero.getColumnas()[0].getId(),columna.getId());
-     assertEquals(tablero.getColumnas()[1].getId(),columna.getId());
+     assertNotNull(tablero.getColumnas().get(columna));
+     assertNotNull(tablero.getColumnas().get(columna1));
    }
 
 }
