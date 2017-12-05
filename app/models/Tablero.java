@@ -16,6 +16,9 @@ public class Tablero {
   @ManyToMany(fetch=FetchType.EAGER,cascade =CascadeType.ALL)
   @JoinTable(name="Persona_Tablero")
   private Set<Usuario> participantes = new HashSet<Usuario>();
+  // relación una a muchos entre tablero y columna
+  @OneToMany(mappedBy="tablero", fetch=FetchType.EAGER)
+  private Set<Columna> columnas = new HashSet<Columna>();
 
   public Tablero() {}
 
@@ -56,6 +59,13 @@ public class Tablero {
       this.participantes = participantes;
    }
 
+    /**
+    * @return the columnas
+    */
+   public Set<Columna> getColumnas() {
+     return this.columnas;
+   }
+
    @Override
    public int hashCode() {
       final int prime = 31;
@@ -84,5 +94,4 @@ public class Tablero {
       }
       return true;
    }
-
 }
