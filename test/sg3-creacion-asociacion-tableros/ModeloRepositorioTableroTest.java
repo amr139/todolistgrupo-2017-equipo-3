@@ -14,6 +14,7 @@ import play.db.Databases;
 import java.sql.*;
 
 import java.util.Set;
+import java.util.List;
 
 import org.dbunit.*;
 import org.dbunit.dataset.*;
@@ -183,8 +184,10 @@ public class ModeloRepositorioTableroTest {
      Tablero tablero = tableroRepository.findById(1000L);
      Columna columna = columnaRepository.findById(1003L);
      Columna columna1 = columnaRepository.findById(1004L);
-     assertNotNull(tablero.getColumnas().get(columna));
-     assertNotNull(tablero.getColumnas().get(columna1));
+
+     List<Columna> tableroList = new ArrayList<Columna>(tablero.getColumnas());
+     assertEquals(true,tableroList.get(0).equals(columan) || tableroList.get(0).equals(columan1));
+     assertEquals(true,tableroList.get(0).equals(columan) || tableroList.get(0).equals(columan1));
    }
 
 }
