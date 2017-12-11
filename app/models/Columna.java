@@ -3,6 +3,10 @@ package models;
 import javax.persistence.*;
 
 import models.Tablero;
+import models.Tarea;
+
+import java.util.Set;
+import java.util.HashSet;
 
 @Entity
 public class Columna {
@@ -13,6 +17,9 @@ public class Columna {
     @ManyToOne
     @JoinColumn(name="tableroId")
     private Tablero tablero;
+    // relación una a muchos entre columna y tarea
+    @OneToMany(mappedBy="columna", fetch=FetchType.EAGER)
+    private Set<Tarea> tareas = new HashSet<Tarea>();
 
     public Columna() {}
 
@@ -20,7 +27,9 @@ public class Columna {
         this.tablero = tablero;
         this.nombre = nombre;
     }
-
+    public Set<Tarea> getTareas() {
+        return this.tareas;
+    }
     public Tablero getTablero() {
         return this.tablero;
     }

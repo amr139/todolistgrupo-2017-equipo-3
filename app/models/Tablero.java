@@ -48,7 +48,7 @@ public class Tablero {
   }
 
    public void setAdministrador(Usuario usuario) {
-     this.administrador = administrador;
+     this.administrador = usuario;
    }
 
    public Set<Usuario> getParticipantes() {
