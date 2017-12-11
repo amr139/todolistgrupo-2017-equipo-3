@@ -14,6 +14,8 @@ import play.db.Databases;
 import java.sql.*;
 
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.dbunit.*;
 import org.dbunit.dataset.*;
@@ -25,6 +27,10 @@ import models.Usuario;
 import models.Tablero;
 import models.TableroRepository;
 import models.UsuarioRepository;
+
+import models.Columna;
+import models.ColumnaRepository;
+import models.JPAColumnaRepository;
 
 public class ModeloRepositorioTableroTest {
   private static Database db;
@@ -168,6 +174,21 @@ public class ModeloRepositorioTableroTest {
       assertEquals(1, usuario1.getTableros().size());
       assertTrue(tablero.getParticipantes().contains(usuario1));
       assertTrue(usuario1.getTableros().contains(tablero));
+   }
+   
+   @Test
+   public void testTableroTieneVariasColumnas() throws Exception {
+     initDataSet();
+     TableroRepository tableroRepository = injector.instanceOf(TableroRepository.class);
+     ColumnaRepository columnaRepository = injector.instanceOf(ColumnaRepository.class);
+     // Obtenemos datos del dataset
+     Tablero tablero = tableroRepository.findById(1000L);
+     Columna columna = columnaRepository.findById(1003L);
+     Columna columna1 = columnaRepository.findById(1004L);
+
+     List<Columna> tableroList = new ArrayList<Columna>(tablero.getColumnas());
+     assertEquals(true,tableroList.get(0).equals(columna) || tableroList.get(0).equals(columna1));
+     assertEquals(true,tableroList.get(0).equals(columna) || tableroList.get(0).equals(columna1));
    }
 
 }

@@ -36,4 +36,28 @@ public class Columna {
     public void setTablero(Tablero tablero) {
         this.tablero = tablero;
     }
+    @Override
+    public int hashCode() {
+       final int prime = 31;
+       int result = prime + ((nombre == null) ? 0 : nombre.hashCode());
+       return result;
+    }
+    @Override
+    public boolean equals(Object obj) {
+       if (this == obj) return true;
+       if (getClass() != obj.getClass()) return false;
+       Columna other = (Columna) obj;
+       // Si tenemos los ID, comparamos por ID
+       if (id != null && other.id != null)
+          return ((long) id == (long) other.id);
+       // sino comparamos por campos obligatorios
+       else {
+          if (nombre == null) {
+             if (other.nombre != null) return false;
+          } else {
+              if(!this.nombre.equals(other.nombre)) return false;
+          }
+       }
+       return true;
+    }
 }
