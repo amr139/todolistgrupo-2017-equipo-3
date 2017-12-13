@@ -24,9 +24,14 @@ import org.dbunit.operation.*;
 import java.io.FileInputStream;
 
 import models.Usuario;
+import models.UsuarioRepository;
+
 import models.Tablero;
 import models.TableroRepository;
-import models.UsuarioRepository;
+
+import models.Tarea;
+import models.TareaRepository;
+
 
 import models.Columna;
 import models.ColumnaRepository;
@@ -188,7 +193,22 @@ public class ModeloRepositorioTableroTest {
 
      List<Columna> tableroList = new ArrayList<Columna>(tablero.getColumnas());
      assertEquals(true,tableroList.get(0).equals(columna) || tableroList.get(0).equals(columna1));
-     assertEquals(true,tableroList.get(0).equals(columna) || tableroList.get(0).equals(columna1));
+     assertEquals(true,tableroList.get(1).equals(columna) || tableroList.get(1).equals(columna1));
+   }
+
+   @Test
+   public void testColumnaTieneVariasTareas() throws Exception {
+     initDataSet();
+     ColumnaRepository columnaRepository = injector.instanceOf(ColumnaRepository.class);
+     TareaRepository tareaRepository = injector.instanceOf(TareaRepository.class);
+     // Obtenemos datos del dataset
+     Columna columna = columnaRepository.findById(1003L);
+     Tarea tarea = tareaRepository.findById(1000L);
+     Tarea tarea1 = tareaRepository.findById(1001L);
+
+     List<Tarea> tareaList = new ArrayList<Tarea>(columna.getTareas());
+     assertEquals(true,tareaList.get(0).equals(tarea) || tareaList.get(0).equals(tarea1));
+     assertEquals(true,tareaList.get(1).equals(tarea) || tareaList.get(1).equals(tarea1));
    }
 
 }

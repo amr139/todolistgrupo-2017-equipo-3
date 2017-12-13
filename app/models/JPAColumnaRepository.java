@@ -41,7 +41,7 @@ public class JPAColumnaRepository implements ColumnaRepository {
     public void delete(Columna columna) {
         jpaApi.withTransaction(() -> {
             EntityManager entityManager = jpaApi.em();
-            Columna columnaBD = entityManager.getReference(Columna.class,columna.getId());
+            Columna columnaBD = entityManager.find(Columna.class,columna.getId());
             entityManager.remove(columnaBD);
         });
     }

@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.*;
 
+import models.Columna;
+
 @Entity
 public class Tarea {
    @Id
@@ -23,6 +25,10 @@ public class Tarea {
    // el ID del usuario con el que está asociado una tarea
    @JoinColumn(name="usuarioId")
    public Usuario usuario;
+
+   @ManyToOne
+   @JoinColumn(name="columnaId")
+   private Columna columna;
 
    public Tarea() {
      this.terminado = false;
