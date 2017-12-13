@@ -18,7 +18,7 @@ public class Columna {
     @JoinColumn(name="tableroId")
     private Tablero tablero;
     // relación una a muchos entre columna y tarea
-    @OneToMany(mappedBy="columna", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="columna", fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
     private Set<Tarea> tareas = new HashSet<Tarea>();
 
     public Columna() {}

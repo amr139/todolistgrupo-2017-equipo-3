@@ -17,7 +17,7 @@ public class Tablero {
   @JoinTable(name="Persona_Tablero")
   private Set<Usuario> participantes = new HashSet<Usuario>();
   // relación una a muchos entre tablero y columna
-  @OneToMany(mappedBy="tablero", fetch=FetchType.EAGER)
+  @OneToMany(mappedBy="tablero", fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
   private Set<Columna> columnas = new HashSet<Columna>();
 
   public Tablero() {}
