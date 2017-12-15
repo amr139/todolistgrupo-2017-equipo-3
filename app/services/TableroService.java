@@ -12,6 +12,8 @@ import models.Usuario;
 import models.UsuarioRepository;
 import models.Tablero;
 import models.TableroRepository;
+import models.Tarea;
+import models.TareaRepository;
 import models.Columna;
 import models.ColumnaRepository;
 
@@ -20,14 +22,17 @@ public class TableroService {
   UsuarioRepository usuarioRepository;
   TableroRepository tableroRepository;
   ColumnaRepository columnaRepository;
+  TareaRepository tareaRepository;
 
   @Inject
   public TableroService(UsuarioRepository usuarioRepository,
                         TableroRepository tableroRepository,
-                        ColumnaRepository columnaRepository){
+                        ColumnaRepository columnaRepository,
+                        TareaRepository tareaRepository){
     this.usuarioRepository = usuarioRepository;
     this.tableroRepository = tableroRepository;
     this.columnaRepository = columnaRepository;
+    this.tareaRepository   = tareaRepository;
   }
 
   public Tablero encontrarTablero(Long idTablero){
@@ -108,7 +113,7 @@ public class TableroService {
 
   }
 
-  public Tablero anyadirColumna(Long idTablero,String nombreColumna) {
+  public Columna anyadirColumna(Long idTablero,String nombreColumna) {
     
     Tablero tablero = tableroRepository.findById(idTablero);
 
@@ -127,10 +132,20 @@ public class TableroService {
     tablero.setColumnas(foo);
 
     // guardo la columna en la BD
-    this.columnaRepository.add(columna);
+    return this.columnaRepository.add(columna);
+  }
 
-    // duevuelvo el tablero con la columna insertada
-    return tablero;
+  public void anyadirTareaColumna(Long idColumna,Long idTarea) {
+      Columna columna = columnaRepository.findById(idColumna);
+      Tarea tarea = this.tareaRepository.findById(idTarea);
+
+      List<Tarea> listaTareas = new ArrayList<Tarea>();
+      listaTareas.addAll(columna.getTareas());
+      if(listaTareas.contains(tarea)) {
+        throw new TableroServiceException("Esta tarea ya esta en la columna");
+      }
+      tarea.setColumna(columna);
+      this.tareaRepository.update(tarea);
   }
 
 
