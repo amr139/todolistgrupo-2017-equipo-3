@@ -17,6 +17,7 @@ import services.TableroService;
 import models.Usuario;
 import models.Tarea;
 import models.Tablero;
+import models.Columna;
 
 import security.ActionAuthenticator;
 
@@ -114,5 +115,28 @@ public class GestionTablerosController extends Controller {
             return ok(desgloseTablero.render(tablero,lista, idUsuario));
         }
     }
-
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result formAñadirColumna(Long idTablero,Long idUsuario) {
+        String connectedUserStr = session("connected");
+        Long connectedUser = Long.valueOf(connectedUserStr);
+        if(connectedUser != idUsuario) {
+            return unauthorized("Lo siento, no estas autorizado");
+        } else {
+            return ok(formAnyadirColumna.render(formFactory.form(Columna.class),idTablero,idUsuario));
+        }
+    }
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result añadirColumna(Long idTablero ,Long idUsuario){
+        String connectedUserStr = session("connected");
+        Long connectedUser = Long.valueOf(connectedUserStr);
+        if(connectedUser != idUsuario) {
+            return unauthorized("Lo siento, no estas autorizado");
+        } else {
+            Form<Columna> form = formFactory.form(Columna.class).bindFromRequest();
+            Columna datos = form.get();
+            String nombreTablro = datos.getNombre();
+            tableroService.anyadirColumna(idTablero,nombreTablro);
+            return redirect(controllers.routes.GestionTablerosController.mostrarDetalleTablero(idUsuario,idTablero));
+        }
+    }
 }

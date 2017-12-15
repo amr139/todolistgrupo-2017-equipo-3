@@ -3,6 +3,7 @@ package models;
 import javax.persistence.*;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.List;
 
 @Entity
 public class Tablero {
