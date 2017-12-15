@@ -43,6 +43,9 @@ public class TableroServiceTest {
   private TableroService newTableroService() {
     return injector.instanceOf(TableroService.class);
   }
+  private TableroRepository newTableroRepository() {
+    return injector.instanceOf(TableroRepository.class);
+  }
 
   //Test 1
   @Test
@@ -105,6 +108,21 @@ public class TableroServiceTest {
         assertEquals(tablero.getNombre(),"Tablero test 2");
         assertEquals(tablero.getAdministrador().getNombre(),"Juan");
         assertEquals(tablero.getParticipantes().size(),1);
+    }
+
+    // test #52 crear una nueva columna
+    @Test
+    public void anyadirColumnaEnTablero() {
+      TableroRepository tableroRepository = newTableroRepository();
+      TableroService tableroService = newTableroService();
+      long idUsuario = 1000L;
+      // creo un tablero nuevo
+      Tablero tablero = tableroService.nuevoTablero(idUsuario, "Tablero de prueba");
+      // creo una nueva columna dentro del tablero anterior
+      tableroService.anyadirColumna(tablero.getId(), "Nueva Columna");
+      // me aseguro que el tablero obetenido es de la BD
+      Tablero tableroBD = tableroRepository.findById(tablero.getId());
+      assertEquals(1,tableroBD.getColumnas().size());
     }
 
 }
