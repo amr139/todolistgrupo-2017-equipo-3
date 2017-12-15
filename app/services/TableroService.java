@@ -12,16 +12,22 @@ import models.Usuario;
 import models.UsuarioRepository;
 import models.Tablero;
 import models.TableroRepository;
+import models.Columna;
+import models.ColumnaRepository;
 
 
 public class TableroService {
   UsuarioRepository usuarioRepository;
   TableroRepository tableroRepository;
+  ColumnaRepository columnaRepository;
 
   @Inject
-  public TableroService(UsuarioRepository usuarioRepository, TableroRepository tableroRepository){
+  public TableroService(UsuarioRepository usuarioRepository,
+                        TableroRepository tableroRepository,
+                        ColumnaRepository columnaRepository){
     this.usuarioRepository = usuarioRepository;
     this.tableroRepository = tableroRepository;
+    this.columnaRepository = columnaRepository;
   }
 
   public Tablero encontrarTablero(Long idTablero){
@@ -34,7 +40,9 @@ public class TableroService {
       throw new TableroServiceException("Usuario no existente");
     }
     Tablero tablero = new Tablero(usuario, titulo);
-    return tableroRepository.add(tablero);
+    Tablero tableroBD = tableroRepository.add(tablero);
+    // Devuelvo el tablero guardado en la BD
+    return tableroBD;
   }
 
   public List<Tablero> allTablerosAdministradosUser(long idUsuario){
@@ -98,6 +106,31 @@ public class TableroService {
     tablero = tableroRepository.update(tablero);
     return tablero;
 
+  }
+
+  public Tablero anyadirColumna(Long idTablero,String nombreColumna) {
+    
+    Tablero tablero = tableroRepository.findById(idTablero);
+
+    Columna columna = new Columna(tablero,nombreColumna);
+    
+    List<Columna> listaColumnas = new ArrayList<Columna>();
+    
+    listaColumnas.addAll(tablero.getColumnas());
+
+    if(listaColumnas.contains(columna)) {
+      throw new TableroServiceException("Esta columna ya esta en el tablero");
+    }
+    listaColumnas.add(columna);
+    Set<Columna> foo = new HashSet<Columna>(listaColumnas);
+    
+    tablero.setColumnas(foo);
+
+    // guardo la columna en la BD
+    this.columnaRepository.add(columna);
+
+    // duevuelvo el tablero con la columna insertada
+    return tablero;
   }
 
 
