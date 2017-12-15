@@ -41,6 +41,13 @@ public class Tarea {
       this.terminado = false;
    }
 
+   public void setColumna(Columna columna) {
+     this.columna=columna;
+   }
+   public Columna getColumna() {
+     return this.columna;
+   }
+
    // Getters y setters necesarios para JPA
 
     public boolean getTerminado(){

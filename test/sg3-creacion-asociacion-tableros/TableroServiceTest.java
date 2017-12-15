@@ -13,12 +13,19 @@ import org.dbunit.dataset.*;
 import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.*;
 import java.io.FileInputStream;
-
+import java.util.Date;
 import java.util.List;
 
 import models.Tablero;
 import models.TableroRepository;
 import services.TableroService;
+
+import models.Tarea;
+import services.TareaService;
+
+import models.Columna;
+import models.ColumnaRepository;
+
 
 public class TableroServiceTest {
   static private Injector injector;
@@ -42,6 +49,15 @@ public class TableroServiceTest {
 
   private TableroService newTableroService() {
     return injector.instanceOf(TableroService.class);
+  }
+  private TareaService newTareaService() {
+    return injector.instanceOf(TareaService.class);
+  }
+  private TableroRepository newTableroRepository() {
+    return injector.instanceOf(TableroRepository.class);
+  }
+  private ColumnaRepository newColumnaRepository() {
+    return injector.instanceOf(ColumnaRepository.class);
   }
 
   //Test 1
@@ -105,6 +121,46 @@ public class TableroServiceTest {
         assertEquals(tablero.getNombre(),"Tablero test 2");
         assertEquals(tablero.getAdministrador().getNombre(),"Juan");
         assertEquals(tablero.getParticipantes().size(),1);
+    }
+
+    // test #52 crear una nueva columna
+    @Test
+    public void anyadirColumnaEnTablero() {
+      TableroRepository tableroRepository = newTableroRepository();
+      TableroService tableroService = newTableroService();
+      long idUsuario = 1000L;
+      // creo un tablero nuevo
+      Tablero tablero = tableroService.nuevoTablero(idUsuario, "Tablero de prueba");
+      assertEquals(0,tablero.getColumnas().size());
+      // creo una nueva columna dentro del tablero anterior
+      tableroService.anyadirColumna(tablero.getId(), "Nueva Columna");
+      // me aseguro que el tablero obetenido es de la BD
+      Tablero tableroBD = tableroRepository.findById(tablero.getId());
+      assertEquals(1,tableroBD.getColumnas().size());
+    }
+
+    // test #53 añadir una tarea dentro de una columna
+    @SuppressWarnings("all")
+    @Test
+    public void anyadirTareaEnColumna() {
+      TableroRepository tableroRepository = newTableroRepository();
+      TableroService tableroService = newTableroService();
+      TareaService tareaService = newTareaService();
+      ColumnaRepository columnaRepository = newColumnaRepository();
+
+      long idUsuario = 1000L;
+      String titulo = "Titulo test";
+      Date fLimite = new Date(2017,11,1);
+      Long tareaId = 1002L;
+      Tablero tablero = tableroService.nuevoTablero(idUsuario, "Tablero de prueba");
+      Columna columna = tableroService.anyadirColumna(tablero.getId(), "Columna de prueba");
+      // creo una nueva tarea
+      Tarea tarea = tareaService.nuevaTarea(idUsuario, titulo, fLimite);
+      // añado la tarea en una columna
+      tableroService.anyadirTareaColumna(columna.getId(),tarea.getId());
+      // compruebo que efectivamente hay una tarea dentro de una columna
+      Columna columnaBD = columnaRepository.findById(columna.getId());
+      assertEquals(1,columnaBD.getTareas().size());
     }
 
 }

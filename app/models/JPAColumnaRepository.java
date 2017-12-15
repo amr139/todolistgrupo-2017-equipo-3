@@ -35,6 +35,7 @@ public class JPAColumnaRepository implements ColumnaRepository {
             Columna columnaBD = entityManager.find(Columna.class,columna.getId());
             columnaBD.setNombre(columna.getNombre());
             columnaBD.setTablero(columna.getTablero());
+            columnaBD.setTareas(columna.getTareas());
             return columnaBD;
         });
     }

@@ -59,11 +59,12 @@ public class Tablero {
       this.participantes = participantes;
    }
 
-    /**
-    * @return the columnas
-    */
    public Set<Columna> getColumnas() {
      return this.columnas;
+   }
+ 
+   public void setColumnas(Set<Columna> columnas) {
+     this.columnas = columnas;
    }
 
    @Override

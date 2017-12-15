@@ -30,6 +30,10 @@ public class Columna {
     public Set<Tarea> getTareas() {
         return this.tareas;
     }
+    public Set<Tarea> setTareas(Set<Tarea> tareas) {
+        this.tareas = tareas;
+        return this.tareas;
+    }
     public Tablero getTablero() {
         return this.tablero;
     }
