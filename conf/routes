@@ -40,5 +40,8 @@ GET     /usuarios/:id/tablero/:idTablero            controllers.GestionTablerosC
 GET     /usuarios/:id/formColumna/:idTablero        controllers.GestionTablerosController.formAñadirColumna(idTablero: Long,id: Long)
 POST    /usuario/:id/formColumna/:idTablero         controllers.GestionTablerosController.añadirColumna(idTablero: Long,id: Long)
 
+GET     /usuarios/:usuario/formTarea/:idColumna/:idTablero                  controllers.GestionTablerosController.formAñadirTarea(idTablero: Long, idColumna: Long,usuario: Long)
+GET    /usuario/:id/formTarea/:idColumna/:idTarea/:idTablero                controllers.GestionTablerosController.añadirTarea(idTablero: Long,idColumna: Long,idTarea: Long,id: Long)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

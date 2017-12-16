@@ -126,7 +126,7 @@ public class GestionTablerosController extends Controller {
         }
     }
     @Security.Authenticated(ActionAuthenticator.class)
-    public Result añadirColumna(Long idTablero ,Long idUsuario){
+    public Result añadirColumna(Long idTablero ,Long idUsuario) {
         String connectedUserStr = session("connected");
         Long connectedUser = Long.valueOf(connectedUserStr);
         if(connectedUser != idUsuario) {
@@ -136,6 +136,28 @@ public class GestionTablerosController extends Controller {
             Columna datos = form.get();
             String nombreTablro = datos.getNombre();
             tableroService.anyadirColumna(idTablero,nombreTablro);
+            return redirect(controllers.routes.GestionTablerosController.mostrarDetalleTablero(idUsuario,idTablero));
+        }
+    }
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result formAñadirTarea(Long idTablero,Long idColumna,Long idUsuario) {
+        String connectedUserStr = session("connected");
+        Long connectedUser = Long.valueOf(connectedUserStr);
+        if(connectedUser != idUsuario) {
+            return unauthorized("Lo siento, no estas autorizado");
+        } else {
+            Usuario usuario = usuarioService.findUsuarioPorId(idUsuario);
+            return ok(formAnyadirTarea.render(idTablero,idColumna,usuario));
+        }
+    }
+    @Security.Authenticated(ActionAuthenticator.class)
+    public Result añadirTarea(Long idTablero ,Long idColumna,Long idTarea ,Long idUsuario) {
+        String connectedUserStr = session("connected");
+        Long connectedUser = Long.valueOf(connectedUserStr);
+        if(connectedUser != idUsuario) {
+            return unauthorized("Lo siento, no estas autorizado");
+        } else {
+            tableroService.anyadirTareaColumna(idColumna,idTarea);
             return redirect(controllers.routes.GestionTablerosController.mostrarDetalleTablero(idUsuario,idTablero));
         }
     }

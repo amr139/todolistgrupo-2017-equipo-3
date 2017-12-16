@@ -1,0 +1,10 @@
+@(idTablero: Long,columnaId: Long,usuario: Usuario)
+
+@main(usuario.getId(),"Añadir tarea en columna") {
+    <h1>Añadir tarea en columna</h1>
+    <ul class="list-group"></ul>
+    @for(tarea <- usuario.getTareas()) {
+        <a href="@routes.GestionTablerosController.añadirTarea(idTablero,columnaId,tarea.getId(),usuario.getId())" class="list-group-item">@tarea.getTitulo()</a>
+    }
+    </ul>
+}

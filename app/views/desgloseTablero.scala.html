@@ -37,13 +37,13 @@
                     <div class="card" 
                           style="text-align: center;">
                       <div class="card-header" 
-                           style="background-color: white;
+                           style="background-color: rgb(120, 199, 230);
                            border-radius: 10px;
                            margin-top: 1%">
                           <h4 class="card-title">@columna.getNombre()</h4>
                       </div>
                       <div class="card-body">
-                        <a href="#" class="btn btn-primary btn-block">añadir tarea</a>
+                        <a href="@routes.GestionTablerosController.formAñadirTarea(tablero.getId(),columna.getId(),idUsuario)" class="btn btn-primary btn-block">añadir tarea</a>
                       </div>
                     </div>
                   @for(tarea <- columna.getTareas()) {
@@ -55,7 +55,7 @@
                           margin-right: 1%;
                           margin-top: 1%;
                           border-radius: 15px;">
-                          <h6>Tarea de prueba</h6>
+                          <h5 style="text-align: center">@tarea.getTitulo()</h5>
                     </div>
                   }
               </div>
