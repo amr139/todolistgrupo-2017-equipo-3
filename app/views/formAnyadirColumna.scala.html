@@ -1,0 +1,13 @@
+@(columnaForm: Form[Columna], idTablero: Long, idUsuario: Long)
+
+@main(idUsuario,"Detalle del Tablero") {
+    <h1>Añadir nueva columna</h1>
+    @helper.form(action = routes.GestionTablerosController.añadirColumna(idTablero,idUsuario)) {
+       <fieldset>
+          @helper.inputText(columnaForm("nombre"), '_label -> "nombre")
+       </fieldset>
+       <p>
+          <button type="submit" class="btn btn-primary">Login</button>
+       </p>
+    }
+}
