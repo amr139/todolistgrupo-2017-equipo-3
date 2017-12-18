@@ -15,6 +15,8 @@ import play.inject.Injector;
 import play.inject.guice.GuiceInjectorBuilder;
 import play.Environment;
 
+import java.util.List;
+
 import models.Usuario;
 import models.Tarea;
 import models.UsuarioRepository;
@@ -73,7 +75,7 @@ public class ComentarioTest {
 	}
 
 	@Test
-	public void addJPAComentario(){
+	public void JPAaddComentario(){
 		assertNotNull(injector);
 		UsuarioRepository usuarioRepository = newUsuarioRepository();
         TareaRepository tareaRepository = newTareaRepository();
@@ -92,12 +94,39 @@ public class ComentarioTest {
 	}
 
 	@Test
-	public void findJPAComentario(){
+	public void JPAfindComentario(){
 		ComentarioRepository comentarioRepository =newComentarioRepository();
 		Comentario comentario = comentarioRepository.findById(101L);
 		assertNotNull(comentario);
 		assertEquals(comentario.getUsuario().getLogin(),"juangutierrez");
 	}
 
+	@Test
+	public void JPAupdateComentario(){
+		ComentarioRepository comentarioRepository =newComentarioRepository();
+		Comentario comentario = comentarioRepository.findById(101L);
+		assertNotNull(comentario);
+		assertEquals(comentario.getUsuario().getLogin(),"juangutierrez");
+		comentario.setMensaje("Mensaje updated");
+		comentario = comentarioRepository.update(comentario);
+		assertEquals(comentario.getMensaje(),"Mensaje updated");
+
+	}
+
+	@Test
+	public void JPAdeleteComentario(){
+		ComentarioRepository comentarioRepository =newComentarioRepository();
+		comentarioRepository.delete(101L);
+		Comentario comentario = comentarioRepository.findById(101L);
+		assertNull(comentario);
+	}
+
+	@Test
+	public void JPAfindComentariosByTareaID(){
+		ComentarioRepository comentarioRepository =newComentarioRepository();
+		List<Comentario> lista = comentarioRepository.findAllComentsByTarea(1000L);
+		assertEquals(lista.size(),1);
+
+	}
 
 }
