@@ -29,7 +29,7 @@ public class Usuario {
    @ManyToMany(mappedBy="participantes", fetch=FetchType.EAGER)
    private Set<Tablero> tableros = new HashSet<Tablero>();
 
-   @OneToMany(mappedBy="comentario", fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
+   @OneToMany(mappedBy="usuario", fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
    private Set<Comentario> comentarios = new HashSet<Comentario>();
 
    // Un constructor vacío necesario para JPA

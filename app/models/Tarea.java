@@ -34,7 +34,7 @@ public class Tarea {
    @JoinColumn(name="columnaId")
    private Columna columna;
 
-   @OneToMany(mappedBy="comentario", fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
+   @OneToMany(mappedBy="tarea", fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
    private Set<Comentario> comentarios = new HashSet<Comentario>();
 
    public Tarea() {
