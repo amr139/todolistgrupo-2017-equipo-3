@@ -1,0 +1,21 @@
+@(tarea: Tarea,comentarios: List[Comentario], idUsuario: Long, mensaje: String)
+
+@main(idUsuario,"Comentarios para la tarea @tarea.getTitulo()") {
+
+    <h2> Listado de Comentarios de la tarea <a style="color:green"> @tarea.getTitulo() </a></h2>
+
+    <div class="container">
+
+    @for(comentario <- comentarios) {
+
+            <p>@comentario.getMensaje()</p>
+      }
+
+  </div>
+
+  @if(mensaje != null) {
+      <div class="alert alert-success">
+          @mensaje
+      </div>
+  }
+}

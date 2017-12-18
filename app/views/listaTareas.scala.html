@@ -39,6 +39,7 @@
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </a>
                 <a href="@routes.GestionTareasController.marcarComoTerminado(tarea.getId())">terminar</a>
+                <a href="@routes.ComentarioController.ListarComentarios(usuario.getId(),tarea.getId())">comentarios</a>
             </td>
         </tr>
       }
