@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 import java.util.Set;
 import java.util.HashSet;
-
+import models.Comentario;
 @Entity
 public class Usuario {
    @Id
@@ -28,6 +28,9 @@ public class Usuario {
    private Set<Tablero> administrados = new HashSet<Tablero>();
    @ManyToMany(mappedBy="participantes", fetch=FetchType.EAGER)
    private Set<Tablero> tableros = new HashSet<Tablero>();
+
+   @OneToMany(mappedBy="comentario", fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
+   private Set<Comentario> comentarios = new HashSet<Comentario>();
 
    // Un constructor vacío necesario para JPA
    public Usuario() {}

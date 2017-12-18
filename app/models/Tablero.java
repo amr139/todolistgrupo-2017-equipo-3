@@ -63,7 +63,7 @@ public class Tablero {
    public Set<Columna> getColumnas() {
      return this.columnas;
    }
- 
+
    public void setColumnas(Set<Columna> columnas) {
      this.columnas = columnas;
    }

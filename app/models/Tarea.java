@@ -4,9 +4,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
+import java.util.Set;
+import java.util.HashSet;
+
 import javax.persistence.*;
 
 import models.Columna;
+import models.Comentario;
 
 @Entity
 public class Tarea {
@@ -29,6 +33,9 @@ public class Tarea {
    @ManyToOne
    @JoinColumn(name="columnaId")
    private Columna columna;
+
+   @OneToMany(mappedBy="comentario", fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
+   private Set<Comentario> comentarios = new HashSet<Comentario>();
 
    public Tarea() {
      this.terminado = false;
@@ -101,6 +108,15 @@ public class Tarea {
       return String.format("Tarea id: %s titulo: %s fechaLimite: %s usuario: %s",
                       id, titulo, fechaLimite, usuario.toString());
    }
+
+   public Set<Comentario> getComentarios() {
+     return this.comentarios;
+   }
+
+   public void setComentario(Set<Comentario> comentarios) {
+     this.comentarios = comentarios;
+   }
+
 
    @Override
    public int hashCode() {
