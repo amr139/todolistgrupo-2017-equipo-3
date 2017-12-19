@@ -49,12 +49,7 @@
                 <div class="panel-heading">@comentario.getUsuario().getLogin()</div>
             }
 
-            <div class="panel-body">@comentario.getMensaje()
-                @if(comentario.getUsuario.getId()==idUsuario){
-                    <button>Editar</button>
-                    <button>Eliminar</button>
-                }
-            </div>
+            <div class="panel-body">@comentario.getMensaje()</div>
                 </div>
             }
 
