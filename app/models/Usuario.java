@@ -9,154 +9,177 @@ import javax.persistence.*;
 import java.util.Set;
 import java.util.HashSet;
 import models.Comentario;
+import models.Notificacion;
+
 @Entity
 public class Usuario {
-   @Id
-   @GeneratedValue(strategy=GenerationType.AUTO)
-   private Long id;
-   private String login;
-   private String email;
-   private String password;
-   private String nombre;
-   private String apellidos;
-   @Temporal(TemporalType.DATE)
-   private Date fechaNacimiento;
-   // Relación uno-a-muchos entre usuario y tarea
-   @OneToMany(mappedBy="usuario", fetch=FetchType.EAGER)
-   public Set<Tarea> tareas = new HashSet<Tarea>();
-   @OneToMany(mappedBy="administrador", fetch=FetchType.EAGER)
-   private Set<Tablero> administrados = new HashSet<Tablero>();
-   @ManyToMany(mappedBy="participantes", fetch=FetchType.EAGER)
-   private Set<Tablero> tableros = new HashSet<Tablero>();
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
+    private String login;
+    private String email;
+    private String password;
+    private String nombre;
+    private String apellidos;
+    @Temporal(TemporalType.DATE)
+    private Date fechaNacimiento;
+    // Relación uno-a-muchos entre usuario y tarea
+    @OneToMany(mappedBy="usuario", fetch=FetchType.EAGER)
+    public Set<Tarea> tareas = new HashSet<Tarea>();
+    @OneToMany(mappedBy="administrador", fetch=FetchType.EAGER)
+    private Set<Tablero> administrados = new HashSet<Tablero>();
+    @ManyToMany(mappedBy="participantes", fetch=FetchType.EAGER)
+    private Set<Tablero> tableros = new HashSet<Tablero>();
 
-   @OneToMany(mappedBy="usuario", fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
-   private Set<Comentario> comentarios = new HashSet<Comentario>();
+    @OneToMany(mappedBy="usuario", fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
+    private Set<Comentario> comentarios = new HashSet<Comentario>();
 
-   // Un constructor vacío necesario para JPA
-   public Usuario() {}
+    @OneToMany(mappedBy="usuario", fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
+    private Set<Notificacion> notificaciones = new HashSet<Notificacion>();
 
-   // El constructor principal con los campos obligatorios
-   public Usuario(String login, String email) {
-      this.login = login;
-      this.email = email;
-   }
+    // Un constructor vacío necesario para JPA
+    public Usuario() { }
 
-   // Getters y setters necesarios para JPA
+    // El constructor principal con los campos obligatorios
+    public Usuario(String login, String email) {
+        this.login = login;
+        this.email = email;
+    }
 
-   public Long getId() {
-      return id;
-   }
+    // Getters y setters necesarios para JPA
 
-   public void setId(Long id) {
-      this.id = id;
-   }
+    public Long getId() {
+        return id;
+    }
 
-   public String getLogin() {
-      return login;
-   }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-   public void setLogin(String login) {
-      this.login = login;
-   }
+    public String getLogin() {
+        return login;
+    }
 
-   public String getEmail() {
-      return email;
-   }
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-   public void setEmail(String email) {
-      this.email = email;
-   }
+    public String getEmail() {
+        return email;
+    }
 
-   public String getPassword() {
-      return this.password;
-   }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-   public void setPassword(String password) {
-      this.password = password;
-   }
+    public String getPassword() {
+        return this.password;
+    }
 
-   public String getNombre() {
-      return nombre;
-   }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-   public void setNombre(String nombre) {
-      this.nombre = nombre;
-   }
+    public String getNombre() {
+        return nombre;
+    }
 
-   public String getApellidos() {
-      return apellidos;
-   }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-   public void setApellidos(String apellidos) {
-      this.apellidos = apellidos;
-   }
+    public String getApellidos() {
+        return apellidos;
+    }
 
-   public Date getFechaNacimiento() {
-      return fechaNacimiento;
-   }
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
 
-   public void setFechaNacimiento(Date fechaNacimiento) {
-      this.fechaNacimiento = fechaNacimiento;
-   }
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
 
-   public Set<Tarea> getTareas() {
-      return tareas;
-   }
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
 
-   public void setTareas(Set<Tarea> tareas) {
-      this.tareas = tareas;
-   }
+    public Set<Tarea> getTareas() {
+        return tareas;
+    }
 
-   public Set<Tablero> getAdministrados() {
-      return administrados;
-   }
+    public void setTareas(Set<Tarea> tareas) {
+        this.tareas = tareas;
+    }
 
-  public void setAdministrados(Set<Tablero> administrados) {
-      this.administrados = administrados;
-  }
+    public Set<Tablero> getAdministrados() {
+        return administrados;
+    }
 
-   public Set<Tablero> getTableros() {
-     return tableros;
-   }
+    public void setAdministrados(Set<Tablero> administrados) {
+        this.administrados = administrados;
+    }
 
-   public void setTableros(Set<Tablero> tableros) {
-      this.tableros = tableros;
-   }
+    public Set<Tablero> getTableros() {
+        return tableros;
+    }
 
-   public String toString() {
-      String fechaStr = null;
-      if (fechaNacimiento != null) {
-         SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
-         fechaStr = formateador.format(fechaNacimiento);
-      }
-      return String.format("Usuario id: %s login: %s password: %s nombre: %s " + "apellidos: %s e-mail: %s fechaNacimiento: %s", id, login, password, nombre, apellidos, email, fechaNacimiento);
-   }
+    public void setTableros(Set<Tablero> tableros) {
+        this.tableros = tableros;
+    }
 
-   @Override
-   public int hashCode() {
-      final int prime = 31;
-      int result = prime + ((login == null) ? 0 : login.hashCode());
-      result = prime * result + ((email == null) ? 0 : email.hashCode());
-      return result;
-   }
 
-   @Override
-   public boolean equals(Object obj) {
-      if (this == obj) return true;
-      if (getClass() != obj.getClass()) return false;
-      Usuario other = (Usuario) obj;
-      // Si tenemos los ID, comparamos por ID
-      if (id != null && other.id != null)
-      return ((long) id == (long) other.id);
-      // sino comparamos por campos obligatorios
-      else {
-         if (login == null) {
-            if (other.login != null) return false;
-         } else if (!login.equals(other.login)) return false;
-         if (email == null) {
-            if (other.email != null) return false;
-         } else if (!email.equals(other.email)) return false;
-      }
-      return true;
-   }
+    public Set<Comentario> getComentarios() {
+        return this.comentarios;
+    }
+
+    public void setComentario(Set<Comentario> comentarios) {
+        this.comentarios = comentarios;
+    }
+
+
+    public Set<Notificacion> getNotificaciones() {
+        return this.notificaciones;
+    }
+
+    public void setNotificaciones(Set<Notificacion> notificaciones) {
+        this.notificaciones = notificaciones;
+    }
+
+    public String toString() {
+        String fechaStr = null;
+        if (fechaNacimiento != null) {
+            SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+            fechaStr = formateador.format(fechaNacimiento);
+        }
+        return String.format("Usuario id: %s login: %s password: %s nombre: %s " + "apellidos: %s e-mail: %s fechaNacimiento: %s", id, login, password, nombre, apellidos, email, fechaNacimiento);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = prime + ((login == null) ? 0 : login.hashCode());
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (getClass() != obj.getClass()) return false;
+        Usuario other = (Usuario) obj;
+        // Si tenemos los ID, comparamos por ID
+        if (id != null && other.id != null)
+        return ((long) id == (long) other.id);
+        // sino comparamos por campos obligatorios
+        else {
+            if (login == null) {
+                if (other.login != null) return false;
+            } else if (!login.equals(other.login)) return false;
+            if (email == null) {
+                if (other.email != null) return false;
+            } else if (!email.equals(other.email)) return false;
+        }
+        return true;
+    }
 }
