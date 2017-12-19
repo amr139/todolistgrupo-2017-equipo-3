@@ -26,6 +26,8 @@ GET     /usuarios/:id/tareas/:idt/comentarios 		controllers.ComentarioController
 POST    /usuarios/:id/tareas/:idt/comentarios 		controllers.ComentarioController.accionNuevoComentario(id: Long, idt: Long)
 DELETE  /usuarios/:id/tareas/:idt/comentarios/:idc		controllers.ComentarioController.accionBorrarComentario(idc: Long, id: Long, idt: Long)
 
+GET     /usuarios/:id/notificaciones 				controllers.NotificacionController.ListarNotificaciones(id: Long)
+
 POST    /usuarios/:id/tareas/nueva					controllers.GestionTareasController.creaNuevaTarea(id: Long)
 GET     /usuarios/:id/tareas        				controllers.GestionTareasController.listaTareas(id: Long)
 GET     /usuarios/:id/tareasTerminadas        		controllers.GestionTareasController.listaTareasTerminadas(id: Long)
