@@ -43,4 +43,11 @@ public class JPANotificacionRepository implements NotificacionRepository {
       });
     }
 
+    public Notificacion readNote(Long idNote) {
+        return jpaApi.withTransaction(entityManager -> {
+            Notificacion note = entityManager.find(Notificacion.class,idNote);
+            note.setEstado(true);
+            return note;
+        });
+    }
 }

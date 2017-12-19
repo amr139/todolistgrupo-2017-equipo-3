@@ -8,6 +8,7 @@ public interface NotificacionRepository {
   Notificacion create(Notificacion notificacion);
   Notificacion findById(Long idNotificacion);
   void delete(Long idNotificacion);
+  Notificacion readNote(Long idNote);
   List<Notificacion> findAllNoteByUser(Long idUser);
 
 }
