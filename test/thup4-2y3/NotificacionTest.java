@@ -14,14 +14,15 @@ import play.inject.Injector;
 import play.inject.guice.GuiceInjectorBuilder;
 import play.Environment;
 
-import models.Usuario;
+import java.util.List;
 
+import models.Usuario;
 import models.UsuarioRepository;
 import models.JPAUsuarioRepository;
-
 import models.Notificacion;
 import models.NotificacionRepository;
 import models.JPANotificacionRepository;
+
 
 public class NotificacionTest {
 	static Database db;
@@ -86,5 +87,21 @@ public class NotificacionTest {
 		assertNotNull(notificacion);
 		assertEquals(notificacion.getUsuario().getLogin(),"juangutierrez");
 	}
+
+	@Test
+	public void JPAdeleteNotificacion(){
+		NotificacionRepository notificacionRepository = newNotificacionRepository();
+		notificacionRepository.delete(101L);
+		Notificacion notificacion = notificacionRepository.findById(101L);
+		assertNull(notificacion);
+	}
+
+	@Test
+	public void JPAgetUserNotificacion(){
+		NotificacionRepository notificacionRepository = newNotificacionRepository();
+		List<Notificacion> notificacion = notificacionRepository.findAllNoteByUser(1000L);
+		assertEquals(notificacion.size(),1);
+	}
+
 
 }
