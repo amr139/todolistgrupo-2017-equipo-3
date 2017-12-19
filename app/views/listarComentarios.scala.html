@@ -1,21 +1,60 @@
 @(tarea: Tarea,comentarios: List[Comentario], idUsuario: Long, mensaje: String)
 
+@scripts = {
+    <script type="text/javascript">
+    function del(urlBorrar) {
+        $.ajax({
+            url: urlBorrar,
+            type: 'DELETE',
+            success: function(results) {
+                //refresh the page
+                location.reload();
+            }
+        });
+    },
+    function put(urlCreate) {
+        $.ajax({
+            url: urlCreate,
+            type: 'PUT',
+            success: function(results) {
+                location.reload();
+            }
+        });
+    }
+    </script>
+}
+
+
 @main(idUsuario,"Comentarios para la tarea @tarea.getTitulo()") {
 
     <h2> Listado de Comentarios de la tarea <a style="color:green"> @tarea.getTitulo() </a></h2>
 
-    <div class="container">
+    <div class="navbar navbar-default">
 
-    @for(comentario <- comentarios) {
+        @for(comentario <- comentarios) {
+            @if(comentario.getUsuario.getId()==idUsuario){
+                <div class="panel panel-success">
+                }else {
+                    <div class="panel panel-default">
+                    }
+                    <div class="panel-heading">@comentario.getUsuario().getLogin()</div>
+                    <div class="panel-body">@comentario.getMensaje()</div>
+                </div>
+            }
 
-            <p>@comentario.getMensaje()</p>
-      }
-
-  </div>
-
-  @if(mensaje != null) {
-      <div class="alert alert-success">
-          @mensaje
-      </div>
-  }
-}
+        </div>
+        @helper.form(action = routes.ComentarioController.accionNuevoComentario(idUsuario,tarea.getId())) {
+            <div class="panel panel-default">
+                <div class="panel-heading">Añadir Comentario</div>
+                <div class="panel-body">
+                    <textarea class="form-control" rows="5" name="comment"></textarea>
+                    <button class="btn btn-primary" style="margin-top:10px" type="submit">Comentar</button>
+                </div>
+            </div>
+        }
+        @if(mensaje != null) {
+            <div class="alert alert-success">
+                @mensaje
+            </div>
+        }
+    }

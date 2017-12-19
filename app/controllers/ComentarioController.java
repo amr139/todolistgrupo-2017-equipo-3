@@ -20,6 +20,7 @@ import models.Comentario;
 import services.ComentarioService;
 import services.TareaService;
 import java.util.List;
+import java.util.ArrayList;
 
 
 import security.ActionAuthenticator;
@@ -45,13 +46,32 @@ public class ComentarioController extends Controller {
 		}
 	}
 
+	@Security.Authenticated(ActionAuthenticator.class)
+	public Result accionNuevoComentario(Long idUser,Long idTarea) {
+		String connectedUserStr = session("connected");
+        Long connectedUser =  Long.valueOf(connectedUserStr);
+        if (connectedUser != idUser) {
+           	return unauthorized("Lo siento, no estás autorizado");
+        } else {
+           	Form<Comentario> comentarioForm = formFactory.form(Comentario.class).bindFromRequest();
+           	if (comentarioForm.hasErrors()) {
+				Tarea tarea = tareaService.obtenerTarea(idTarea);
+				List<Comentario> vacia = new ArrayList<Comentario>();
+              	return badRequest(listarComentarios.render(tarea,vacia,idUser, "Hay errores en el formulario"));
+           }
+		   DynamicForm requestData = formFactory.form().bindFromRequest();
+		   String mensaje = requestData.get("comment");
+		   Comentario c = comentarioService.crearComentario(idTarea,idUser,mensaje,"none");
+	   }
+	   flash("aviso","El comentario se ha grabado correctamente");
+	   return redirect(controllers.routes.ComentarioController.ListarComentarios(idUser,idTarea));
 
 
-/*	public Result formularioNuevoComentario() {
+
 
 	}
 
-	public Result formularioEditarComentario() {
+/*	public Result formularioEditarComentario() {
 
 	}
 
