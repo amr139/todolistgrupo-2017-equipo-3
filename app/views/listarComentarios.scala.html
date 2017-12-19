@@ -11,7 +11,7 @@
                 location.reload();
             }
         });
-    },
+    }
     function put(urlCreate) {
         $.ajax({
             url: urlCreate,
@@ -25,7 +25,7 @@
 }
 
 
-@main(idUsuario,"Comentarios para la tarea @tarea.getTitulo()") {
+@main(idUsuario,"Comentarios para la tarea @tarea.getTitulo()",scripts) {
 
     <h2> Listado de Comentarios de la tarea <a style="color:green"> @tarea.getTitulo() </a></h2>
 
@@ -34,11 +34,27 @@
         @for(comentario <- comentarios) {
             @if(comentario.getUsuario.getId()==idUsuario){
                 <div class="panel panel-success">
-                }else {
-                    <div class="panel panel-default">
-                    }
-                    <div class="panel-heading">@comentario.getUsuario().getLogin()</div>
-                    <div class="panel-body">@comentario.getMensaje()</div>
+                    <div class="pull-right">
+                        <a>
+                            <span class="glyphicon glyphicon-pencil">Editar</span>
+                        </a>
+                        <a onclick="del('@routes.ComentarioController.accionBorrarComentario(comentario.getId(),idUsuario,tarea.getId())')">
+                            <span class="glyphicon glyphicon-trash">Borrar</span>
+                        </a>
+                    </div>
+                <div class="panel-heading">@comentario.getUsuario().getLogin()
+                </div>
+            }else {
+                <div class="panel panel-primary">
+                <div class="panel-heading">@comentario.getUsuario().getLogin()</div>
+            }
+
+            <div class="panel-body">@comentario.getMensaje()
+                @if(comentario.getUsuario.getId()==idUsuario){
+                    <button>Editar</button>
+                    <button>Eliminar</button>
+                }
+            </div>
                 </div>
             }
 
