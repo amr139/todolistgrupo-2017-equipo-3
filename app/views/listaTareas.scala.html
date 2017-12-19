@@ -34,11 +34,13 @@
             </td>
             <td>
                 <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())">
-                <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                <span class="glyphicon glyphicon-pencil"></span>
+                </a>
                 <a onmouseover="" style="cursor: pointer;" onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </a>
                 <a href="@routes.GestionTareasController.marcarComoTerminado(tarea.getId())">terminar</a>
+                <a href="@routes.ComentarioController.ListarComentarios(usuario.getId(),tarea.getId())">comentarios</a>
             </td>
         </tr>
       }

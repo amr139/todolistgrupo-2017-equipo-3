@@ -52,10 +52,12 @@ public class ComentarioService {
 		return comentario;
 	}
 
-	public void borrarComentario(Long idComentario){
+	public void borrarComentario(Long idComentario, Long idUsuario){
 		Comentario comentario = comentarioRepository.findById(idComentario);
 		if(comentario==null)
 			throw new ComentarioServiceException("No existe la tarea");
+        if(comentario.getUsuario().getId()!=idUsuario)
+            throw new ComentarioServiceException("No puedes borrar el comentario");
 		comentarioRepository.delete(idComentario);
 	}
 }
