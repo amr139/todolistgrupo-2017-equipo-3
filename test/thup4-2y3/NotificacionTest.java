@@ -103,5 +103,13 @@ public class NotificacionTest {
 		assertEquals(notificacion.size(),1);
 	}
 
+	@Test
+	public void JPAmarkAsReadNotificacion(){
+		NotificacionRepository notificacionRepository = newNotificacionRepository();
+		notificacionRepository.readNote(101L);
+		Notificacion notificacion = notificacionRepository.findById(101L);
+		assertNotNull(notificacion);
+		assertEquals(notificacion.getEstado(),true);
+	}
 
 }

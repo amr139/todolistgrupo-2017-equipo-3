@@ -54,7 +54,7 @@ public class Notificacion {
 		return this.leida;
 	}
 
-	public void setestado(Boolean estado){
+	public void setEstado(Boolean estado){
 		this.leida = estado;
 	}
 
