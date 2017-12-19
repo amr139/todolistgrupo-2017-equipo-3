@@ -17,8 +17,10 @@ import services.UsuarioService;
 import models.Usuario;
 import models.Tarea;
 import models.Comentario;
+import models.Notificacion;
 import services.ComentarioService;
 import services.TareaService;
+import services.NotificacionService;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -31,6 +33,7 @@ public class ComentarioController extends Controller {
 	@Inject FormFactory formFactory;
 	@Inject ComentarioService comentarioService;
 	@Inject TareaService tareaService;
+	@Inject NotificacionService notificacionService;
 
 	@Security.Authenticated(ActionAuthenticator.class)
 	public Result ListarComentarios(Long idUsuario, Long idTarea) {
@@ -57,6 +60,8 @@ public class ComentarioController extends Controller {
 	   DynamicForm requestData = formFactory.form().bindFromRequest();
 	   String mensaje = requestData.get("comment");
 	   Comentario c = comentarioService.crearComentario(idTarea,idUser,mensaje,"none");
+	   Tarea t  = tareaService.obtenerTarea(idTarea);
+	   Notificacion n = notificacionService.crearNotificacion(idUser, "Ha comentado el usuario "+t.getUsuario().getLogin()+" en la tarea: " + t.getTitulo());
 
 	   flash("aviso","El comentario se ha grabado correctamente");
 	   return redirect(controllers.routes.ComentarioController.ListarComentarios(idUser,idTarea));

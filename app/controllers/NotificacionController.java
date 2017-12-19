@@ -43,5 +43,12 @@ public class NotificacionController extends Controller {
 		}
 	}
 
+	@Security.Authenticated(ActionAuthenticator.class)
+	public Result borrarNotificaciones(Long idUsuario, Long idNote) {
+		notificacionService.borrarNotificacion(idNote);
+		flash("aviso","Tarea borrada correctamente");
+		return ok();
+
+	}
 
 }
