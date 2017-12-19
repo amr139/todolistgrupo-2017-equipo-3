@@ -2,20 +2,11 @@
 
 @scripts = {
     <script type="text/javascript">
+
     function del(urlBorrar) {
         $.ajax({
             url: urlBorrar,
             type: 'DELETE',
-            success: function(results) {
-                //refresh the page
-                location.reload();
-            }
-        });
-    }
-    function put(urlCreate) {
-        $.ajax({
-            url: urlCreate,
-            type: 'PUT',
             success: function(results) {
                 location.reload();
             }
@@ -35,9 +26,6 @@
             @if(comentario.getUsuario.getId()==idUsuario){
                 <div class="panel panel-success">
                     <div class="pull-right">
-                        <a>
-                            <span class="glyphicon glyphicon-pencil">Editar</span>
-                        </a>
                         <a onclick="del('@routes.ComentarioController.accionBorrarComentario(comentario.getId(),idUsuario,tarea.getId())')">
                             <span class="glyphicon glyphicon-trash">Borrar</span>
                         </a>
@@ -58,7 +46,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Añadir Comentario</div>
                 <div class="panel-body">
-                    <textarea class="form-control" rows="5" name="comment"></textarea>
+                    <textarea id="textareac"class="form-control" rows="5" name="comment"></textarea>
                     <button class="btn btn-primary" style="margin-top:10px" type="submit">Comentar</button>
                 </div>
             </div>

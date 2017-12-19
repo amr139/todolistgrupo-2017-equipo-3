@@ -69,22 +69,4 @@ public class ComentarioController extends Controller {
 		return ok();
 	}
 
-/*	public Result formularioEditarComentario() {
-
-	}
-
-	public Result accionNuevoComentario() {
-
-	}
-
-	public Result accionEditarComentario() {
-
-	}
-
-	public Result accionBorrarComentario() {
-
-	}
-*/
-
-
 }
