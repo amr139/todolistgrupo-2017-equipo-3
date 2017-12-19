@@ -15,4 +15,5 @@
     <Tarea id="1001" titulo="Práctica 1 MADS" usuarioId="1000" columnaId="1003" terminado="false"/>
     <Persona_Tablero tableros_id="1000" participantes_id="1001"/>
     <Comentario id="101" tareaId="1000" usuarioId="1000" mensaje="Mensaje de prueba" fileUrl="none"/>
+    <Notificacion id="101" usuarioId="1000" mensaje="Notificacion de prueba" leida="false"/>
   </dataset>
