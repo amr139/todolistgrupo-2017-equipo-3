@@ -41,4 +41,18 @@ public class NotificacionService {
 		return notificacionRepository.create(notificacion);
 	}
 
+	public Notificacion obtenerNotificacion(Long idNote){
+		Notificacion notificacion = notificacionRepository.findById(idNote);
+		if(notificacion==null)
+			throw new NotificacionServiceException("No existe la notificacion");
+		return notificacion;
+	}
+
+	public void borrarNotificacion(Long idNote){
+		Notificacion notificacion = notificacionRepository.findById(idNote);
+		if(comentario==null)
+			throw new ComentarioServiceException("No existe la tarea");
+		notificacionRepository.delete(idNote);
+	}
+
 }
