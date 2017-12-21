@@ -3,6 +3,7 @@ package models;
 import javax.persistence.*;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.List;
 
 @Entity
 public class Tablero {
@@ -16,6 +17,9 @@ public class Tablero {
   @ManyToMany(fetch=FetchType.EAGER,cascade =CascadeType.ALL)
   @JoinTable(name="Persona_Tablero")
   private Set<Usuario> participantes = new HashSet<Usuario>();
+  // relación una a muchos entre tablero y columna
+  @OneToMany(mappedBy="tablero", fetch=FetchType.EAGER,cascade = CascadeType.REMOVE)
+  private Set<Columna> columnas = new HashSet<Columna>();
 
   public Tablero() {}
 
@@ -45,7 +49,7 @@ public class Tablero {
   }
 
    public void setAdministrador(Usuario usuario) {
-     this.administrador = administrador;
+     this.administrador = usuario;
    }
 
    public Set<Usuario> getParticipantes() {
@@ -54,6 +58,14 @@ public class Tablero {
 
    public void setParticipantes(Set<Usuario> participantes) {
       this.participantes = participantes;
+   }
+
+   public Set<Columna> getColumnas() {
+     return this.columnas;
+   }
+
+   public void setColumnas(Set<Columna> columnas) {
+     this.columnas = columnas;
    }
 
    @Override
@@ -84,5 +96,4 @@ public class Tablero {
       }
       return true;
    }
-
 }

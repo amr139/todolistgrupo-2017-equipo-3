@@ -15,7 +15,7 @@
 }
 @main(usuario.getId(),"Tareas del usuario @usuario.getLogin()", scripts) {
 
-    <h2> Listado de tareas de @usuario.getLogin()</h2>
+    <h2> Listado de tareas de <a style="color:green"> @usuario.getLogin() </a></h2>
 
     <table class="table table-striped">
         <tr>
@@ -34,12 +34,13 @@
             </td>
             <td>
                 <a href="@routes.GestionTareasController.formularioEditaTarea(tarea.getId())">
-                <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                <span class="glyphicon glyphicon-pencil"></span>
+                </a>
                 <a onmouseover="" style="cursor: pointer;" onclick="del('@routes.GestionTareasController.borraTarea(tarea.getId())')">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </a>
                 <a href="@routes.GestionTareasController.marcarComoTerminado(tarea.getId())">terminar</a>
-                @tarea.getTerminado()
+                <a href="@routes.ComentarioController.ListarComentarios(usuario.getId(),tarea.getId())">comentarios</a>
             </td>
         </tr>
       }
@@ -48,9 +49,8 @@
           <td><a href="@routes.GestionTareasController.formularioNuevaTarea(usuario.getId())">
               <span class="glyphicon glyphicon-plus"/></a>
           </td>
-          <td>
-
-          </td>
+          <td></td>
+          <td></td>
 
       </tr>
 

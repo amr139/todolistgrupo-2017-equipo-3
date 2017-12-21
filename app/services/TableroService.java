@@ -12,16 +12,27 @@ import models.Usuario;
 import models.UsuarioRepository;
 import models.Tablero;
 import models.TableroRepository;
+import models.Tarea;
+import models.TareaRepository;
+import models.Columna;
+import models.ColumnaRepository;
 
 
 public class TableroService {
   UsuarioRepository usuarioRepository;
   TableroRepository tableroRepository;
+  ColumnaRepository columnaRepository;
+  TareaRepository tareaRepository;
 
   @Inject
-  public TableroService(UsuarioRepository usuarioRepository, TableroRepository tableroRepository){
+  public TableroService(UsuarioRepository usuarioRepository,
+                        TableroRepository tableroRepository,
+                        ColumnaRepository columnaRepository,
+                        TareaRepository tareaRepository){
     this.usuarioRepository = usuarioRepository;
     this.tableroRepository = tableroRepository;
+    this.columnaRepository = columnaRepository;
+    this.tareaRepository   = tareaRepository;
   }
 
   public Tablero encontrarTablero(Long idTablero){
@@ -34,7 +45,9 @@ public class TableroService {
       throw new TableroServiceException("Usuario no existente");
     }
     Tablero tablero = new Tablero(usuario, titulo);
-    return tableroRepository.add(tablero);
+    Tablero tableroBD = tableroRepository.add(tablero);
+    // Devuelvo el tablero guardado en la BD
+    return tableroBD;
   }
 
   public List<Tablero> allTablerosAdministradosUser(long idUsuario){
@@ -98,6 +111,41 @@ public class TableroService {
     tablero = tableroRepository.update(tablero);
     return tablero;
 
+  }
+
+  public Columna anyadirColumna(Long idTablero,String nombreColumna) {
+    
+    Tablero tablero = tableroRepository.findById(idTablero);
+
+    Columna columna = new Columna(tablero,nombreColumna);
+    
+    List<Columna> listaColumnas = new ArrayList<Columna>();
+    
+    listaColumnas.addAll(tablero.getColumnas());
+
+    if(listaColumnas.contains(columna)) {
+      throw new TableroServiceException("Esta columna ya esta en el tablero");
+    }
+    listaColumnas.add(columna);
+    Set<Columna> foo = new HashSet<Columna>(listaColumnas);
+    
+    tablero.setColumnas(foo);
+
+    // guardo la columna en la BD
+    return this.columnaRepository.add(columna);
+  }
+
+  public void anyadirTareaColumna(Long idColumna,Long idTarea) {
+      Columna columna = columnaRepository.findById(idColumna);
+      Tarea tarea = this.tareaRepository.findById(idTarea);
+
+      List<Tarea> listaTareas = new ArrayList<Tarea>();
+      listaTareas.addAll(columna.getTareas());
+      if(listaTareas.contains(tarea)) {
+        throw new TableroServiceException("Esta tarea ya esta en la columna");
+      }
+      tarea.setColumna(columna);
+      this.tareaRepository.update(tarea);
   }
 
 

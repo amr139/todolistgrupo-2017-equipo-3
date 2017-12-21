@@ -9,19 +9,19 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Brand</a>
+      <a class="navbar-brand" href="#">Menu</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tableros <b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tareas <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="/usuarios/@idUsuario/tareas">Mis tareas</a></li>
             <li><a href="/usuarios/@idUsuario/tareasTerminadas">Mis tareas terminadas</a></li>
           </ul>
-          
+
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tableros <b class="caret"></b></a>
@@ -32,6 +32,7 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li><a onclick="(function(){ $('#myModal').modal('show'); })()">Notificacion</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">@request.session.get("login")<b class="caret"></b></a>
           <ul class="dropdown-menu">
