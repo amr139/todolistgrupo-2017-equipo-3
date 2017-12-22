@@ -36,20 +36,27 @@
 ## Evolución tablero [Trello](https://trello.com/b/7K40DubB/mads-equipo3)
 
 ### Inicio
+![Image](https://github.com/mads-ua/todolistgrupo-2017-equipo-3/blob/master/doc/imagenes/Start.png)
 
 ### Semana 1
+![Image](https://github.com/mads-ua/todolistgrupo-2017-equipo-3/blob/master/doc/imagenes/S1.png)
 
 ### Semana 2
+![Image](https://github.com/mads-ua/todolistgrupo-2017-equipo-3/blob/master/doc/imagenes/S2.png)
 
 ### Semana 3
+![Image](https://github.com/mads-ua/todolistgrupo-2017-equipo-3/blob/master/doc/imagenes/S3.png)
 
 ### Semana 4
+![Image](https://github.com/mads-ua/todolistgrupo-2017-equipo-3/blob/master/doc/imagenes/S4.png)
 
 ### Fin
+![Image](https://github.com/mads-ua/todolistgrupo-2017-equipo-3/blob/master/doc/imagenes/End.png)
 
 # Gráficas acerca del sprint
 
 ## Resumen
+![Image](https://github.com/mads-ua/todolistgrupo-2017-equipo-3/blob/master/doc/imagenes/Commits.PNG)
 
 #  Reuniones Scrum
 
